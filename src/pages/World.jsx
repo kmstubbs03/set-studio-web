@@ -173,22 +173,21 @@ export default function World() {
           }}
         >
         <h1 style={{ fontSize: isMobile ? '1.4rem' : '1.8rem', marginBottom: '4px' }}>{world.title}</h1>
-        <p style={{ fontSize: isMobile ? '0.85rem' : '1rem', opacity: 0.8, marginBottom: isMobile ? '12px' : '20px', fontWeight: 'bold' }}>{world.subtitle}</p>
+        <p style={{ fontSize: isMobile ? '0.95rem' : '1.1rem', opacity: 0.95, marginBottom: isMobile ? '12px' : '20px', fontWeight: 'bold' }}>{world.subtitle}</p>
         
-        {/* Features List */}
         <div style={{
-          background: 'rgba(255,255,255,0.2)',
+          background: 'rgba(255,255,255,0.6)',
           borderRadius: '16px',
-          padding: isMobile ? '12px' : '20px',
+          padding: isMobile ? '14px' : '24px',
           width: '100%',
           marginBottom: isMobile ? '15px' : '30px',
           textAlign: 'left'
         }}>
-          <h3 style={{ fontSize: isMobile ? '1rem' : '1.1rem', marginBottom: isMobile ? '10px' : '15px', textAlign: 'center' }}>What's Included</h3>
-          <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: isMobile ? '8px' : '12px' }}>
+          <h3 style={{ fontSize: isMobile ? '1.1rem' : '1.25rem', marginBottom: isMobile ? '12px' : '18px', textAlign: 'center' }}>What's Included</h3>
+          <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: isMobile ? '10px' : '14px' }}>
             {world.features.map((feature, i) => (
-              <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', fontSize: isMobile ? '0.8rem' : '0.9rem', lineHeight: '1.3' }}>
-                <Check size={16} style={{ color: 'var(--color-slate-plum)', flexShrink: 0, marginTop: '2px' }} />
+              <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', fontSize: isMobile ? '0.95rem' : '1.1rem', fontWeight: '500', lineHeight: '1.4' }}>
+                <Check size={18} style={{ color: 'var(--color-slate-plum)', flexShrink: 0, marginTop: '2px' }} />
                 <span>{feature}</span>
               </li>
             ))}
