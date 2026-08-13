@@ -1,0 +1,3 @@
+const fs = require('fs'); 
+let m = 'Hey, Kayla \uD83D\uDC9C I\'d love to book a subscription with you!\n\n\uD83E\uDDDA My Service Details:\n* Service: Polygel Nails Subscription\n* Area: Kraaifontein, Durbanville & Surrounds\n* Package: The Basic Set\n* Length: Short/Medium (s-m)\n* Art: Tier 1 Art\n\n\uD83D\uDC06My Availability:\n* Preferred Date: 12/08/2026\n* Preferred Times: 11:00, 12:00, 13:00\n\n\uD83D\uDC8B My Info:\n* Name: knhk akkhfk\n* Address: kihkih\n* WhatsApp: 086 859 5884\n\n\uD83D\uDCB0 Estimated Total: R1,000\nPlease let me know if these times work for you and how I can pay to secure my spot! \uD83D\uDC85'; 
+fs.writeFileSync('url.txt', 'https://wa.me/27750656459?text=' + encodeURIComponent(m));

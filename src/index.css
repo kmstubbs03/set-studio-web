@@ -1,0 +1,98 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,700;1,800&family=Syne:wght@700;800&display=swap');
+
+@font-face {
+  font-family: 'SetStudioHeading';
+  src: url('/SetStudioHeading.otf') format('opentype');
+}
+:root {
+  /* Brand Colors */
+  --color-cloud-gray: #E6E5E8;
+  --color-dusty-lilac: #B9B4C7;
+  --color-slate-plum: #5C5470;
+  --color-iced-oat: #FAF6F0;
+
+  /* Typography */
+  --font-heading: 'SetStudioHeading', 'Syne', sans-serif;
+  --font-body: 'Plus Jakarta Sans', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-variant-ligatures: none;
+  cursor: url('/cursor.svg') 5 5, auto !important;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-iced-oat);
+  color: var(--color-slate-plum);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 800;
+}
+
+/* Glassmorphism Utilities */
+.glass-panel {
+  background: rgba(250, 246, 240, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 8px 32px 0 rgba(92, 84, 112, 0.1);
+}
+
+.glass-panel-dark {
+  background: rgba(92, 84, 112, 0.5);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(230, 229, 232, 0.2);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+  color: var(--color-iced-oat);
+}
+
+/* Global button reset */
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Custom Sleek Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: var(--color-slate-plum);
+}
+
+/* For Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+}
