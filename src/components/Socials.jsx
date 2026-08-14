@@ -43,7 +43,7 @@ export default function Socials() {
     { name: 'Instagram', icon: <Instagram />, url: 'https://www.instagram.com/setstudio.sa?igsh=NmU3a2trYnZ5YWJl&utm_source=qr' },
     { name: 'Facebook', icon: <Facebook />, url: 'https://www.facebook.com/share/19JKaHyTZU/?mibextid=wwXIfr' },
     { name: 'TikTok', icon: <TikTok />, url: 'https://www.tiktok.com/@thesetstudioza?_r=1&_t=ZS-98sLEAZ7DHA' },
-    { name: 'YouTube', icon: <Youtube />, url: '#' }
+    { name: 'YouTube', icon: <Youtube />, url: 'https://youtube.com/@thesetstudioza?si=M3JPCcoMufdqy0qF' }
   ];
 
   return (
