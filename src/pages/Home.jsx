@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import Socials from '../components/Socials';
 
 const WORLDS = [
   {
@@ -73,6 +74,8 @@ export default function Home() {
       style={{ height: '100vh', width: '100vw', display: 'flex', flexDirection: isMobile ? 'column' : 'row', overflow: 'hidden', position: 'relative' }}
     >
       
+      <Socials />
+
       {/* The 3 Vertical Columns */}
       {WORLDS.map((world) => (
         <motion.div
