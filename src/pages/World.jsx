@@ -148,11 +148,13 @@ export default function World() {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'space-evenly',
+        justifyContent: 'flex-start',
+        gap: isMobile ? '30px' : '40px',
         overflowY: 'auto',
         overflowX: 'hidden',
         padding: '10px',
-        paddingBottom: isMobile ? '40px' : '40px'
+        paddingTop: isMobile ? '20px' : '40px',
+        paddingBottom: isMobile ? '60px' : '80px'
       }}>
         {/* Content Area */}
         <motion.div
@@ -222,7 +224,7 @@ export default function World() {
           display: 'flex', 
           justifyContent: 'center',
           flexShrink: 0,
-          marginTop: '-5px',
+          marginTop: '10px',
           zIndex: 20,
           position: 'relative'
         }}>
