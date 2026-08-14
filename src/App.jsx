@@ -3,7 +3,6 @@ import { AnimatePresence } from 'framer-motion';
 import Home from './pages/Home';
 import World from './pages/World';
 import SmartFAQ from './components/SmartFAQ';
-import Socials from './components/Socials';
 
 function App() {
   const location = useLocation();
@@ -17,7 +16,6 @@ function App() {
         </Routes>
       </AnimatePresence>
       <SmartFAQ />
-      <Socials />
     </>
   );
 }
