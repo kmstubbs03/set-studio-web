@@ -149,7 +149,7 @@ export default function World() {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'flex-start',
-        gap: isMobile ? '30px' : '40px',
+        gap: isMobile ? '10px' : '15px',
         overflowY: 'auto',
         overflowX: 'hidden',
         padding: '10px',
@@ -224,7 +224,6 @@ export default function World() {
           display: 'flex', 
           justifyContent: 'center',
           flexShrink: 0,
-          marginTop: '10px',
           zIndex: 20,
           position: 'relative'
         }}>
