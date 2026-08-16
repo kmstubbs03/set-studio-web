@@ -42,7 +42,7 @@ Key Information:
 - You must ONLY answer questions related to Set Studio. If asked about unrelated topics (like math, coding, general knowledge, etc), playfully and politely steer the conversation back to nails, lashes, and our mobile salon experience. Keep answers concise, usually under 2-3 sentences unless explaining something detailed.`;
 
     const model = genAI.getGenerativeModel({ 
-      model: "gemini-1.5-flash",
+      model: "gemini-flash-latest",
       systemInstruction: systemPrompt 
     });
 
@@ -56,6 +56,6 @@ Key Information:
     res.status(200).json({ text });
   } catch (error) {
     console.error('Chat API Error:', error);
-    res.status(500).json({ error: 'Failed to process message' });
+    res.status(500).json({ error: 'Failed to process message', details: error.message, stack: error.stack });
   }
 }
