@@ -35,26 +35,46 @@ export default function SmartFAQ() {
     localStorage.setItem('setStudioFAQClosed', 'true');
   };
 
-  const handleSendMessage = (e) => {
+  const handleSendMessage = async (e) => {
     e.preventDefault();
     if (!chatInput.trim()) return;
     
-    setChatMessages([...chatMessages, { type: 'user', text: chatInput }]);
-    const currentInput = chatInput.toLowerCase();
+    const userMessage = chatInput;
+    setChatMessages(prev => [...prev, { type: 'user', text: userMessage }]);
     setChatInput('');
     
-    // Simulate AI smart response
-    setTimeout(() => {
-      let botResponse = "That's a great question! For all specific booking details, you can log into your portal. But remember, the premium salon experience is brought straight to your couch! 🛋️";
+    // Map our chat messages to Gemini's history format
+    // Skip the first message if we want, but it's fine to include
+    const apiHistory = chatMessages.map(msg => ({
+      role: msg.type === 'user' ? 'user' : 'model',
+      parts: [{ text: msg.text }]
+    }));
       
-      if (currentInput.includes('mobile') || currentInput.includes('where') || currentInput.includes('travel')) {
-        botResponse = "Set Studio is completely MOBILE! That means you don't commute to a salon—I come directly to you to do your nails and lashes in the comfort of your own home! 🚗✨";
-      } else if (currentInput.includes('subscription') || currentInput.includes('price') || currentInput.includes('cost') || currentInput.includes('single')) {
-        botResponse = "Set Studio is primarily a VIP SUBSCRIPTION-BASED service, so you never have to stress about fighting for appointments. However, single appointments are occasionally accepted if there is availability! You can request one using the link at the bottom of the home page. 💜";
-      }
+    // Add a temporary loading message
+    setChatMessages(prev => [...prev, { type: 'bot', text: 'Thinking... ✨', isLoading: true }]);
 
-      setChatMessages(prev => [...prev, { type: 'bot', text: botResponse }]);
-    }, 1000);
+    try {
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: userMessage, history: apiHistory })
+      });
+      
+      const data = await response.json();
+      
+      setChatMessages(prev => {
+        const newMsgs = [...prev];
+        // Replace the "Thinking..." message with the actual response
+        newMsgs[newMsgs.length - 1] = { type: 'bot', text: data.text || "Sorry, I had a little glitch! 💋" };
+        return newMsgs;
+      });
+    } catch (err) {
+      setChatMessages(prev => {
+        const newMsgs = [...prev];
+        newMsgs[newMsgs.length - 1] = { type: 'bot', text: "Sorry, I couldn't connect. Please try again! 💅" };
+        return newMsgs;
+      });
+    }
   };
 
   return (
