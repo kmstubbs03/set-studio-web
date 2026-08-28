@@ -80,6 +80,7 @@ export default function BookingFlow({ worldId, worldTitle, onClose }) {
   
   // Package/Upgrade selections
   const [selectedPackage, setSelectedPackage] = useState('basic'); // for nails
+  const [selectedProduct, setSelectedProduct] = useState('Acrylic'); // for nails
   const [selectedLength, setSelectedLength] = useState('s-m'); // for nails
   const [selectedArt, setSelectedArt] = useState('tier1'); // for nails
 
@@ -109,6 +110,7 @@ export default function BookingFlow({ worldId, worldTitle, onClose }) {
   const [bookingNote, setBookingNote] = useState('');
 
   const [termsAccepted, setTermsAccepted] = useState(false);
+  const [policiesAccepted, setPoliciesAccepted] = useState(false);
   
   let currentPrice = PRICING[worldId] ? PRICING[worldId][selectedArea] : 0;
   if (worldId === 'nails' || worldId === 'the-set') {
@@ -195,6 +197,16 @@ export default function BookingFlow({ worldId, worldTitle, onClose }) {
             
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
               <label style={{ fontSize: '0.85rem', fontWeight: 'bold' }}>
+                Product Preference
+              </label>
+              <select value={selectedProduct} onChange={(e) => setSelectedProduct(e.target.value)} style={inputStyle}>
+                <option value="Acrylic" style={{color: 'black'}}>Acrylic</option>
+                <option value="Polygel" style={{color: 'black'}}>Polygel</option>
+              </select>
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <label style={{ fontSize: '0.85rem', fontWeight: 'bold' }}>
                 Preferred Length{' '}
                 <span 
                   onClick={() => setShowLengthModal(true)}
@@ -240,7 +252,7 @@ export default function BookingFlow({ worldId, worldTitle, onClose }) {
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '5px', background: 'rgba(255,255,255,0.1)', padding: '12px', borderRadius: '8px' }}>
               <strong style={{ fontSize: '0.85rem', color: 'var(--color-slate-plum)' }}>Reference Photos Required! 📸</strong>
               <p style={{ fontSize: '0.75rem', opacity: 0.9, margin: 0, lineHeight: '1.4' }}>
-                Since Tier 2+ prices vary, please remember to attach <strong>1-5 reference photos</strong> of the nail art you want in the final WhatsApp message (Step 7) so Kayla can give you an exact quote!
+                Since Tier 2+ prices vary, please remember to attach <strong>1-5 reference photos</strong> of the nail art you want in the final WhatsApp message (Step 7) so Kayla can give you an exact quote unless covered by a higher subscription
               </p>
             </div>
           </div>
@@ -451,7 +463,7 @@ export default function BookingFlow({ worldId, worldTitle, onClose }) {
             </div>
             
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-              <label style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', marginTop: '15px', padding: '10px', background: 'rgba(255,255,255,0.2)', borderRadius: '8px', cursor: 'pointer' }}>
+              <label style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', marginTop: '10px', padding: '10px', background: 'rgba(255,255,255,0.2)', borderRadius: '8px', cursor: 'pointer' }}>
                 <input 
                   type="checkbox" 
                   checked={termsAccepted} 
@@ -460,6 +472,32 @@ export default function BookingFlow({ worldId, worldTitle, onClose }) {
                 />
                 <span style={{ fontSize: '0.85rem', lineHeight: '1.4' }}>
                   I acknowledge that Set Studio is a mobile service, and by continuing I am subscribing to a monthly recurring appointment (or base service) as selected above.
+                </span>
+              </label>
+
+              <div style={{ marginTop: '10px', padding: '12px', background: 'rgba(255,255,255,0.1)', borderRadius: '8px' }}>
+                <h4 style={{ margin: '0 0 10px 0', fontSize: '0.9rem', color: 'var(--color-dusty-lilac)' }}>Salon Policies</h4>
+                <div style={{ maxHeight: '150px', overflowY: 'auto', fontSize: '0.75rem', lineHeight: '1.5', paddingRight: '10px', opacity: 0.9 }}>
+                  <strong>1. Cancellation, Lateness & Rescheduling:</strong> 48-hour notice of cancellation is required, otherwise 40% of the total price is forfeited. A 15-minute grace period applies for late arrivals; if you aren't ready, the appointment may be cancelled. Subscriptions can be paused or cancelled via WhatsApp.<br/><br/>
+                  <strong>2. "Use it or Lose it" Subscription Policy:</strong> Subscription visits do not roll over to the next month. If you skip a visit and cannot reschedule it within the same billing cycle, that visit is forfeited.<br/><br/>
+                  <strong>3. Sick & Health Policy:</strong> If you are feeling unwell, have flu-like symptoms, or have an eye/nail infection, you must reschedule. We reserve the right to refuse service upon arrival if there are health or safety risks.<br/><br/>
+                  <strong>4. 48-Hour Fix Guarantee & Aftercare:</strong> If a nail chips or a lash falls out within the first 48 hours due to application issues, it is fixed completely free of charge. After 48 hours, standard fix-up rates apply (though subscriptions cover general fills/fix-ups).<br/><br/>
+                  <strong>5. Safe Working Environment Policy:</strong> Pets and children are completely welcome! Clients just need to ensure the workspace is well-lit, clean, and distraction-free. The environment is smoke and drink friendly as long as it doesn't affect the quality of work.<br/><br/>
+                  <strong>6. Booking & Deposits Policy:</strong> Clients can choose to pay the full price when booking or a 40% deposit with the rest due on the day. Payments can be made via EFT, cash, or PayShap.<br/><br/>
+                  <strong>7. Foreign Fills & Preparation Policy:</strong> We do not remove other salons' work. Nails must be completely bare for the first appointment. Lashes must be clean, and completely oil and makeup-free.<br/><br/>
+                  <strong>8. Home Setup Policy:</strong> The client simply needs to provide a table and 2 chairs for the appointment.
+                </div>
+              </div>
+
+              <label style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', padding: '10px', background: 'rgba(255,255,255,0.2)', borderRadius: '8px', cursor: 'pointer' }}>
+                <input 
+                  type="checkbox" 
+                  checked={policiesAccepted} 
+                  onChange={(e) => setPoliciesAccepted(e.target.checked)} 
+                  style={{ accentColor: 'var(--color-slate-plum)', marginTop: '3px', cursor: 'pointer' }} 
+                />
+                <span style={{ fontSize: '0.85rem', lineHeight: '1.4', fontWeight: 'bold' }}>
+                  I have read and agree to all Set Studio policies listed above.
                 </span>
               </label>
             </div>
@@ -486,7 +524,7 @@ export default function BookingFlow({ worldId, worldTitle, onClose }) {
       }
     }
     
-    if (currentStep.id === 'terms' && !termsAccepted) {
+    if (currentStep.id === 'terms' && (!termsAccepted || !policiesAccepted)) {
       return true;
     }
     
@@ -548,6 +586,7 @@ export default function BookingFlow({ worldId, worldTitle, onClose }) {
     
     if (worldId === 'nails' || worldId === 'the-set') {
        message += `- Nail Package: ${SUBSCRIPTION_PACKAGES[selectedPackage].name}\n`;
+       message += `- Nail Product: ${selectedProduct}\n`;
        message += `- Nail Length: ${LENGTH_UPGRADES[selectedLength].name}\n`;
        message += `- Nail Art: ${ART_UPGRADES[selectedArt].name}\n`;
     }

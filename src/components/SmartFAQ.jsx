@@ -44,11 +44,13 @@ export default function SmartFAQ() {
     setChatInput('');
     
     // Map our chat messages to Gemini's history format
-    // Skip the first message if we want, but it's fine to include
-    const apiHistory = chatMessages.map(msg => ({
-      role: msg.type === 'user' ? 'user' : 'model',
-      parts: [{ text: msg.text }]
-    }));
+    // Skip the first message (bot greeting) because Gemini requires history to start with 'user'
+    const apiHistory = chatMessages
+      .filter((_, index) => index !== 0)
+      .map(msg => ({
+        role: msg.type === 'user' ? 'user' : 'model',
+        parts: [{ text: msg.text }]
+      }));
       
     // Add a temporary loading message
     setChatMessages(prev => [...prev, { type: 'bot', text: 'Thinking... ✨', isLoading: true }]);
