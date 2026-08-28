@@ -13,11 +13,6 @@ const WORLDS = [
     id: 'lashes',
     title: 'LASHES',
     bg: '/leopard_stars.jpg',
-  },
-  {
-    id: 'the-set',
-    title: 'THE SET',
-    bg: '/leopard_print_medium.jpg',
   }
 ];
 

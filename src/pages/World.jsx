@@ -57,20 +57,6 @@ const WORLDS = {
       'Travel fees included (varies depending on area)'
     ],
     gallery: LASH_IMAGES
-  },
-  'the-set': {
-    title: 'The Set Subscription',
-    subtitle: 'Nails + Lashes Experience',
-    bg: '/leopard_print_medium.jpg',
-    color: '#FAF6F0',
-    description: 'The ultimate VIP treatment. Flawless nails and captivating lashes, all in one sitting.',
-    features: [
-      '2x appointments per month',
-      'Lashes + Polygel set/fill every visit',
-      'Any fixes included',
-      'Travel fees included (varies depending on area)'
-    ],
-    gallery: SET_IMAGES
   }
 };
 

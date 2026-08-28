@@ -113,10 +113,10 @@ export default function BookingFlow({ worldId, worldTitle, onClose }) {
   const [policiesAccepted, setPoliciesAccepted] = useState(false);
   
   let currentPrice = PRICING[worldId] ? PRICING[worldId][selectedArea] : 0;
-  if (worldId === 'nails' || worldId === 'the-set') {
+  if (worldId === 'nails') {
     currentPrice += SUBSCRIPTION_PACKAGES[selectedPackage].price;
   }
-  if (worldId === 'lashes' || worldId === 'the-set') {
+  if (worldId === 'lashes') {
     currentPrice += LASH_PACKAGES[selectedLashPackage].price;
   }
 
@@ -172,7 +172,7 @@ export default function BookingFlow({ worldId, worldTitle, onClose }) {
             <div style={{ marginTop: '10px', background: 'rgba(255,255,255,0.1)', padding: '15px', borderRadius: '12px' }}>
               <div style={{ fontSize: '0.85rem', opacity: 0.8 }}>Base {worldId === 'lashes' ? 'Service' : 'Subscription'}</div>
               <div style={{ fontSize: '2rem', fontWeight: 'bold' }}>R {currentPrice.toLocaleString()}</div>
-              {(worldId === 'nails' || worldId === 'the-set') && <div style={{ fontSize: '0.75rem', opacity: 0.6, marginTop: '5px' }}>Includes 2x visits & travel fees</div>}
+              {(worldId === 'nails') && <div style={{ fontSize: '0.75rem', opacity: 0.6, marginTop: '5px' }}>Includes 2x visits & travel fees</div>}
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '10px' }}>
@@ -184,7 +184,7 @@ export default function BookingFlow({ worldId, worldTitle, onClose }) {
       }
     ];
 
-    if (worldId === 'nails' || worldId === 'the-set') {
+    if (worldId === 'nails') {
       baseSteps.push({
         id: 'upgrades',
         title: 'Appointment Preferences',
@@ -260,7 +260,7 @@ export default function BookingFlow({ worldId, worldTitle, onClose }) {
       });
     }
 
-    if (worldId === 'nails' || worldId === 'the-set') {
+    if (worldId === 'nails') {
       baseSteps.push({
         id: 'package',
         title: 'Choose Your Nail Package',
@@ -297,7 +297,7 @@ export default function BookingFlow({ worldId, worldTitle, onClose }) {
       });
     }
 
-    if (worldId === 'lashes' || worldId === 'the-set') {
+    if (worldId === 'lashes') {
       baseSteps.push({
         id: 'lash-package',
         title: 'Choose Your Density',
@@ -433,14 +433,14 @@ export default function BookingFlow({ worldId, worldTitle, onClose }) {
             <div style={{ background: 'rgba(255,255,255,0.2)', padding: '15px', borderRadius: '12px', textAlign: 'left', display: 'flex', flexDirection: 'column', gap: '5px' }}>
               <div style={{ opacity: 0.8, fontSize: '0.9rem' }}>Area: {selectedArea}</div>
               
-              {(worldId === 'nails' || worldId === 'the-set') && (
+              {(worldId === 'nails') && (
                 <>
                   <div style={{ opacity: 0.8, fontSize: '0.9rem' }}>Nail Package: {SUBSCRIPTION_PACKAGES[selectedPackage].name}</div>
                   <div style={{ opacity: 0.8, fontSize: '0.9rem' }}>Nail Length: {LENGTH_UPGRADES[selectedLength].name} | Art: {ART_UPGRADES[selectedArt].name}</div>
                 </>
               )}
               
-              {(worldId === 'lashes' || worldId === 'the-set') && (
+              {(worldId === 'lashes') && (
                 <>
                   <div style={{ opacity: 0.8, fontSize: '0.9rem' }}>Lash Density: {LASH_PACKAGES[selectedLashPackage].name}</div>
                   <div style={{ opacity: 0.8, fontSize: '0.9rem' }}>Lash Customization: {selectedLashStyle} | {selectedLashCurl} | {selectedLashLength}</div>
@@ -584,14 +584,14 @@ export default function BookingFlow({ worldId, worldTitle, onClose }) {
     message += `- Service: ${worldTitle}\n`;
     message += `- Area: ${selectedArea}\n`;
     
-    if (worldId === 'nails' || worldId === 'the-set') {
+    if (worldId === 'nails') {
        message += `- Nail Package: ${SUBSCRIPTION_PACKAGES[selectedPackage].name}\n`;
        message += `- Nail Product: ${selectedProduct}\n`;
        message += `- Nail Length: ${LENGTH_UPGRADES[selectedLength].name}\n`;
        message += `- Nail Art: ${ART_UPGRADES[selectedArt].name}\n`;
     }
 
-    if (worldId === 'lashes' || worldId === 'the-set') {
+    if (worldId === 'lashes') {
        message += `- Lash Density: ${LASH_PACKAGES[selectedLashPackage].name}\n`;
        message += `- Lash Style: ${selectedLashStyle}\n`;
        message += `- Lash Curl: ${selectedLashCurl}\n`;
@@ -618,7 +618,7 @@ export default function BookingFlow({ worldId, worldTitle, onClose }) {
     
     const text = message;
     
-    const pkgDetails = worldId === 'nails' || worldId === 'the-set' 
+    const pkgDetails = worldId === 'nails' 
       ? SUBSCRIPTION_PACKAGES[selectedPackage].name 
       : LASH_PACKAGES[selectedLashPackage].name;
 
