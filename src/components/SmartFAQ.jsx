@@ -88,14 +88,12 @@ export default function SmartFAQ() {
         whileTap={{ scale: 0.9 }}
         style={{
           position: 'fixed',
-          bottom: isMobile ? '45px' : '30px',
-          left: isMobile ? '50%' : 'auto',
-          right: isMobile ? 'auto' : '30px',
-          x: isMobile ? '-50%' : 0,
-          width: isMobile ? '120px' : '70px',
-          height: isMobile ? '36px' : '70px',
-          borderRadius: isMobile ? '18px' : '50%',
-          padding: isMobile ? '0' : '10px',
+          bottom: '20px',
+          right: '20px',
+          width: '45px',
+          height: '45px',
+          borderRadius: '50%',
+          padding: '8px',
           zIndex: 50,
           display: 'flex',
           justifyContent: 'center',
@@ -108,11 +106,7 @@ export default function SmartFAQ() {
           boxShadow: '0 8px 32px rgba(0,0,0,0.2)'
         }}
       >
-        {isMobile ? (
-          <span style={{ fontFamily: 'var(--font-heading)', fontSize: '1rem', color: '#fff' }}>Set Studio</span>
-        ) : (
-          <img src="/faq_icon.png" alt="FAQ" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
-        )}
+        <img src="/faq_icon.png" alt="FAQ" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
       </motion.button>
 
       {/* Expanded Modal */}
