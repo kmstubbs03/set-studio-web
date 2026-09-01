@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+﻿import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 
 const FEED_IMAGES = [
@@ -23,11 +23,11 @@ export default function Home() {
   };
 
   const glassStyle = {
-    background: 'rgba(230, 229, 232, 0.1)', // Very clear, barely any grey tint
-    backdropFilter: 'blur(16px) saturate(140%)', // Liquid distortion
-    WebkitBackdropFilter: 'blur(16px) saturate(140%)',
-    border: '1px solid rgba(255, 255, 255, 0.4)', // Glass edge reflection
-    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.05), inset 0 1px 2px rgba(255, 255, 255, 0.6)', // Specular highlight
+    background: 'rgba(255, 255, 255, 0.15)', // Very clean, light tint
+    backdropFilter: 'blur(16px)', // Standard blur, no weird saturation
+    WebkitBackdropFilter: 'blur(16px)',
+    border: '1px solid rgba(255, 255, 255, 0.5)', 
+    boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
   };
 
   return (
@@ -68,30 +68,37 @@ export default function Home() {
               
               {/* Action Island */}
               {img.actionLabel && (
-                <motion.div 
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={() => handleAction(img.actionType)}
-                  style={{
-                    position: 'absolute',
-                    bottom: '8%',
-                    left: '50%',
-                    transform: 'translateX(-50%)',
-                    ...glassStyle,
-                    padding: '16px 36px',
-                    borderRadius: '30px', // pill shape
-                    cursor: 'pointer',
-                    color: 'var(--color-slate-plum)', // Use primary brand color instead of black
-                    fontWeight: '800',
-                    fontSize: '1rem',
-                    textTransform: 'uppercase',
-                    letterSpacing: '1px',
-                    whiteSpace: 'nowrap',
-                    fontFamily: 'var(--font-heading)'
-                  }}
-                >
-                  {img.actionLabel}
-                </motion.div>
+                <div style={{
+                  position: 'absolute',
+                  bottom: '8%',
+                  left: 0,
+                  right: 0,
+                  display: 'flex',
+                  justifyContent: 'center',
+                  pointerEvents: 'none'
+                }}>
+                  <motion.div 
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
+                    onClick={() => handleAction(img.actionType)}
+                    style={{
+                      pointerEvents: 'auto',
+                      ...glassStyle,
+                      padding: '16px 36px',
+                      borderRadius: '30px', // pill shape
+                      cursor: 'pointer',
+                      color: 'var(--color-slate-plum)', // Brand color
+                      fontWeight: '800',
+                      fontSize: '1rem',
+                      textTransform: 'uppercase',
+                      letterSpacing: '1px',
+                      whiteSpace: 'nowrap',
+                      fontFamily: 'var(--font-heading)'
+                    }}
+                  >
+                    {img.actionLabel}
+                  </motion.div>
+                </div>
               )}
             </div>
           ))}
