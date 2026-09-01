@@ -1,5 +1,6 @@
-﻿import { motion } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
+﻿import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import BookingFlow from '../components/BookingFlow';
 
 const FEED_IMAGES = [
   { id: 'img-1', src: '/feed/web_pic_1.jpeg', actionLabel: 'Book Single Appointment', actionType: 'single' },
@@ -11,14 +12,14 @@ const FEED_IMAGES = [
 ];
 
 export default function Home() {
-  const navigate = useNavigate();
+  const [showSubscribeModal, setShowSubscribeModal] = useState(false);
 
   const handleAction = (type) => {
     if (type === 'single') {
       const msg = "Hi, Kayla! 💜 I'm interested in your services and would love to book a single appointment to try it out before committing to a subscription. Do you have any availability?";
       window.open("https://wa.me/27683595032?text=" + encodeURIComponent(msg), "_blank");
     } else if (type === 'subscribe') {
-      navigate('/world/nails');
+      setShowSubscribeModal(true);
     }
   };
 
@@ -56,7 +57,7 @@ export default function Home() {
         />
       </div>
 
-      {/* Feed Container - Centered and max-width for desktop */}
+      {/* Feed Container */}
       <div style={{ paddingTop: '60px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <div style={{ width: '100%', maxWidth: '500px', display: 'flex', flexDirection: 'column' }}>
           {FEED_IMAGES.map((img, index) => (
@@ -76,8 +77,8 @@ export default function Home() {
                   left: 0,
                   right: 0,
                   display: 'flex',
-                  alignItems: 'center', // Centers vertically
-                  justifyContent: 'center', // Centers horizontally
+                  alignItems: 'center',
+                  justifyContent: 'center',
                   pointerEvents: 'none'
                 }}>
                   <motion.div 
@@ -88,9 +89,9 @@ export default function Home() {
                       pointerEvents: 'auto',
                       ...glassStyle,
                       padding: '16px 36px',
-                      borderRadius: '30px', // pill shape
+                      borderRadius: '30px',
                       cursor: 'pointer',
-                      color: 'var(--color-slate-plum)', // Brand color
+                      color: 'var(--color-slate-plum)',
                       fontWeight: '800',
                       fontSize: '1rem',
                       textTransform: 'uppercase',
@@ -107,6 +108,15 @@ export default function Home() {
           ))}
         </div>
       </div>
+
+      {/* Subscription Portal Overlay */}
+      {showSubscribeModal && (
+        <BookingFlow 
+          worldId="nails" 
+          worldTitle="Nails Subscription" 
+          onClose={() => setShowSubscribeModal(false)} 
+        />
+      )}
 
     </div>
   );
