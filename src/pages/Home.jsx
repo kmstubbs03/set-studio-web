@@ -1,152 +1,98 @@
-import { motion } from 'framer-motion';
+﻿import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
-import Socials from '../components/Socials';
 
-const WORLDS = [
-  {
-    id: 'nails',
-    title: 'NAILS',
-    bg: '/leopard_print_light.jpg',
-  },
-  {
-    id: 'lashes',
-    title: 'LASHES',
-    bg: '/leopard_stars.jpg',
-  }
+const FEED_IMAGES = [
+  { id: 'img-1', src: '/feed/web_pic_1.jpeg', actionLabel: 'Book Single Appointment', actionType: 'single' },
+  { id: 'img-4', src: '/feed/web_pic_4.jpeg', actionLabel: 'Subscribe', actionType: 'subscribe' },
+  { id: 'img-2', src: '/feed/web_pic_2.jpeg' },
+  { id: 'img-3', src: '/feed/web_pic_3.jpeg' },
+  { id: 'img-5', src: '/feed/web_pic_5.jpeg' },
+  { id: 'img-6', src: '/feed/web_pic_6.jpeg' },
 ];
 
 export default function Home() {
   const navigate = useNavigate();
-  const [isMobile, setIsMobile] = useState(false);
-  const [activePortal, setActivePortal] = useState(null);
 
-  useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth <= 768);
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  const [isTouched, setIsTouched] = useState(false);
-
-  // Auto-play animation for mobile to make it feel alive
-  useEffect(() => {
-    if (!isMobile || isTouched) return;
-    
-    let currentIndex = 0;
-    const interval = setInterval(() => {
-      setActivePortal(WORLDS[currentIndex].id);
-      currentIndex = (currentIndex + 1) % WORLDS.length;
-    }, 2500); // cycle every 2.5s
-    
-    return () => clearInterval(interval);
-  }, [isMobile, isTouched]);
-
-  const handleTouchMove = (e) => {
-    if (!isMobile) return;
-    setIsTouched(true);
-    const touch = e.touches[0];
-    const element = document.elementFromPoint(touch.clientX, touch.clientY);
-    if (element) {
-      const portal = element.closest('.portal-container');
-      if (portal) {
-        setActivePortal(portal.dataset.id);
-      }
-    }
-  };
-
-  const handleTouchEnd = () => {
-    if (isMobile) {
-      setActivePortal(null);
+  const handleAction = (type) => {
+    if (type === 'single') {
+      const msg = "Hi, Kayla! 💜 I'm interested in your services and would love to book a single appointment to try it out before committing to a subscription. Do you have any availability?";
+      window.open("https://wa.me/27683595032?text=" + encodeURIComponent(msg), "_blank");
+    } else if (type === 'subscribe') {
+      navigate('/world/nails');
     }
   };
 
   return (
-    <div 
-      onTouchMove={handleTouchMove}
-      onTouchEnd={handleTouchEnd}
-      style={{ height: '100vh', width: '100vw', display: 'flex', flexDirection: isMobile ? 'column' : 'row', overflow: 'hidden', position: 'relative' }}
-    >
+    <div style={{ width: '100vw', minHeight: '100vh', backgroundColor: '#FAF6F0', overflowX: 'hidden' }}>
       
-      <Socials />
+      {/* Liquid Glass Header */}
+      <div style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        height: '70px',
+        background: 'rgba(230, 229, 232, 0.75)', // #E6E5E8 with transparency
+        backdropFilter: 'blur(16px)',
+        WebkitBackdropFilter: 'blur(16px)',
+        zIndex: 50,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderBottom: '1px solid rgba(255,255,255,0.3)',
+        boxShadow: '0 4px 30px rgba(0, 0, 0, 0.05)'
+      }}>
+        <img 
+          src="/logo_horizontal.png" 
+          alt="Set Studio" 
+          style={{ height: '35px', objectFit: 'contain' }}
+        />
+      </div>
 
-      {/* The 3 Vertical Columns */}
-      {WORLDS.map((world) => (
-        <motion.div
-          key={world.id}
-          className="portal-container"
-          data-id={world.id}
-          layoutId={`world-container-${world.id}`}
-          onClick={() => navigate(`/world/${world.id}`)}
-          onHoverStart={() => !isMobile && setActivePortal(world.id)}
-          onHoverEnd={() => !isMobile && setActivePortal(null)}
-          animate={{ flex: activePortal === world.id ? 1.5 : 1 }}
-          style={{
-            cursor: 'pointer',
-            flex: 1,
-            position: 'relative',
-            overflow: 'hidden',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            transition: 'flex 0.4s cubic-bezier(0.25, 1, 0.5, 1)'
-          }}
-        >
-          {/* Background Image of the Portal */}
-          <motion.div 
-            layoutId={`world-bg-${world.id}`}
-            style={{
-              position: 'absolute',
-              top: 0, left: 0, right: 0, bottom: 0,
-              backgroundImage: `url(${world.bg})`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-              zIndex: 0
-            }}
-          />
-          
-          {/* Text always visible overlay */}
-          <div style={{
-            position: 'absolute',
-            zIndex: 1,
-            background: 'rgba(0,0,0,0.2)', // Slight dark tint to make text pop
-            width: '100%',
-            height: '100%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            opacity: 1
-          }}>
-            <h2 style={{ color: '#fff', fontSize: '3rem', letterSpacing: '4px', textShadow: '0 4px 12px rgba(0,0,0,0.4)' }}>{world.title}</h2>
+      {/* Feed Container */}
+      <div style={{ paddingTop: '70px', display: 'flex', flexDirection: 'column' }}>
+        {FEED_IMAGES.map((img, index) => (
+          <div key={img.id} style={{ position: 'relative', width: '100vw' }}>
+            <img 
+              src={img.src} 
+              alt={'Gallery ' + index}
+              style={{ width: '100%', height: 'auto', display: 'block' }}
+            />
+            
+            {/* Action Island */}
+            {img.actionLabel && (
+              <motion.div 
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={() => handleAction(img.actionType)}
+                style={{
+                  position: 'absolute',
+                  bottom: '8%',
+                  left: '50%',
+                  transform: 'translateX(-50%)',
+                  background: 'rgba(230, 229, 232, 0.65)', // #E6E5E8 liquid glass
+                  backdropFilter: 'blur(12px)',
+                  WebkitBackdropFilter: 'blur(12px)',
+                  border: '1px solid rgba(255,255,255,0.4)',
+                  padding: '12px 32px',
+                  borderRadius: '24px', // pill shape
+                  boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
+                  cursor: 'pointer',
+                  color: 'var(--color-slate-plum)',
+                  fontWeight: '800',
+                  fontSize: '1rem',
+                  textTransform: 'uppercase',
+                  letterSpacing: '1px',
+                  whiteSpace: 'nowrap',
+                  fontFamily: 'var(--font-heading)'
+                }}
+              >
+                {img.actionLabel}
+              </motion.div>
+            )}
           </div>
-        </motion.div>
-      ))}
-
-      {/* Book Single Appointment Link */}
-      <a 
-        href={`https://wa.me/27683595032?text=${encodeURIComponent("Hi, Kayla! 💜 I'm interested in your services and would love to book a single appointment to try it out before committing to a subscription. Do you have any availability?")}`}
-        target="_blank"
-        rel="noopener noreferrer"
-        style={{
-          position: 'absolute',
-          bottom: isMobile ? '15px' : '20px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          zIndex: 10,
-          color: 'rgba(255,255,255,0.6)',
-          textShadow: '0 2px 4px rgba(0,0,0,0.5)',
-          cursor: 'pointer',
-          fontSize: '0.8rem',
-          textDecoration: 'underline',
-          transition: 'color 0.2s',
-          whiteSpace: 'nowrap'
-        }}
-        onMouseEnter={(e) => e.target.style.color = '#fff'}
-        onMouseLeave={(e) => e.target.style.color = 'rgba(255,255,255,0.6)'}
-      >
-        Looking for a single appointment?
-      </a>
+        ))}
+      </div>
 
     </div>
   );
