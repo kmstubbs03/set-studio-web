@@ -22,12 +22,13 @@ export default function Home() {
     }
   };
 
+  // Ultra-transparent Apple visionOS style glass
   const glassStyle = {
-    background: 'rgba(255, 255, 255, 0.15)', // Very clean, light tint
-    backdropFilter: 'blur(16px)', // Standard blur, no weird saturation
-    WebkitBackdropFilter: 'blur(16px)',
-    border: '1px solid rgba(255, 255, 255, 0.5)', 
-    boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
+    background: 'rgba(255, 255, 255, 0.03)', // Almost completely transparent
+    backdropFilter: 'blur(25px)', 
+    WebkitBackdropFilter: 'blur(25px)',
+    border: '1px solid rgba(255, 255, 255, 0.3)', // Soft reflective edge
+    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.15)',
   };
 
   return (
@@ -46,7 +47,7 @@ export default function Home() {
         justifyContent: 'center',
         ...glassStyle,
         border: 'none',
-        borderBottom: '1px solid rgba(255, 255, 255, 0.3)'
+        borderBottom: '1px solid rgba(255, 255, 255, 0.2)'
       }}>
         <img 
           src="/logo_horizontal.png" 
@@ -70,16 +71,18 @@ export default function Home() {
               {img.actionLabel && (
                 <div style={{
                   position: 'absolute',
-                  bottom: '8%',
+                  top: 0,
+                  bottom: 0,
                   left: 0,
                   right: 0,
                   display: 'flex',
-                  justifyContent: 'center',
+                  alignItems: 'center', // Centers vertically
+                  justifyContent: 'center', // Centers horizontally
                   pointerEvents: 'none'
                 }}>
                   <motion.div 
-                    whileHover={{ scale: 1.03 }}
-                    whileTap={{ scale: 0.97 }}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
                     onClick={() => handleAction(img.actionType)}
                     style={{
                       pointerEvents: 'auto',
