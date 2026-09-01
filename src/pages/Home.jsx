@@ -1,4 +1,4 @@
-﻿import { motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 
 const FEED_IMAGES = [
@@ -81,7 +81,7 @@ export default function Home() {
                     padding: '16px 36px',
                     borderRadius: '30px', // pill shape
                     cursor: 'pointer',
-                    color: '#000', // darker color for contrast on clear glass
+                    color: 'var(--color-slate-plum)', // Use primary brand color instead of black
                     fontWeight: '800',
                     fontSize: '1rem',
                     textTransform: 'uppercase',
