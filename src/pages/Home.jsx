@@ -23,11 +23,11 @@ export default function Home() {
   };
 
   const glassStyle = {
-    background: 'rgba(230, 229, 232, 0.35)', // More transparent for true glass look
-    backdropFilter: 'blur(24px) saturate(180%)',
-    WebkitBackdropFilter: 'blur(24px) saturate(180%)',
-    border: '1px solid rgba(255, 255, 255, 0.6)',
-    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1), inset 0 1px 1px rgba(255, 255, 255, 0.8)',
+    background: 'rgba(230, 229, 232, 0.1)', // Very clear, barely any grey tint
+    backdropFilter: 'blur(16px) saturate(140%)', // Liquid distortion
+    WebkitBackdropFilter: 'blur(16px) saturate(140%)',
+    border: '1px solid rgba(255, 255, 255, 0.4)', // Glass edge reflection
+    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.05), inset 0 1px 2px rgba(255, 255, 255, 0.6)', // Specular highlight
   };
 
   return (
@@ -46,7 +46,7 @@ export default function Home() {
         justifyContent: 'center',
         ...glassStyle,
         border: 'none',
-        borderBottom: '1px solid rgba(255, 255, 255, 0.5)'
+        borderBottom: '1px solid rgba(255, 255, 255, 0.3)'
       }}>
         <img 
           src="/logo_horizontal.png" 
@@ -81,7 +81,7 @@ export default function Home() {
                     padding: '16px 36px',
                     borderRadius: '30px', // pill shape
                     cursor: 'pointer',
-                    color: '#000', // darker color for contrast on light glass
+                    color: '#000', // darker color for contrast on clear glass
                     fontWeight: '800',
                     fontSize: '1rem',
                     textTransform: 'uppercase',
