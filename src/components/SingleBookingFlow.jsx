@@ -190,6 +190,15 @@ export default function SingleBookingFlow({ onClose }) {
               <input type="tel" placeholder="e.g. 082 123 4567" style={inputStyle} value={whatsapp} onChange={e => setWhatsapp(e.target.value)} />
             </div>
 
+            
+            <div style={{ marginTop: '5px', background: 'rgba(255,255,255,0.1)', padding: '15px', borderRadius: '12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div>
+                <div style={{ fontSize: '0.85rem', opacity: 0.8 }}>Estimated Total</div>
+                <div style={{ fontSize: '0.7rem', opacity: 0.6, marginTop: '2px' }}>Area + Length + Art</div>
+              </div>
+              <div style={{ fontSize: '1.3rem', fontWeight: 'bold', color: 'var(--color-dusty-lilac)' }}>R {currentPrice.toLocaleString()}</div>
+            </div>
+
             <label style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', marginTop: '10px', cursor: 'pointer' }}>
               <input type="checkbox" checked={termsAccepted} onChange={e => setTermsAccepted(e.target.checked)} style={{ marginTop: '4px' }} />
               <span style={{ fontSize: '0.8rem', opacity: 0.9, lineHeight: '1.4' }}>
@@ -206,8 +215,8 @@ export default function SingleBookingFlow({ onClose }) {
 
   const handleNext = () => {
     if (step === 0 && !address) return alert("Please provide your home address.");
-    if (step === 3 && !selectedDate) return alert("Please select a date.");
-    if (step === 4) {
+    if (step === 2 && !selectedDate) return alert("Please select a date.");
+    if (step === 3) {
       if (!fullName || !whatsapp) return alert("Please fill in your details.");
       if (!termsAccepted) return alert("You must accept the terms & conditions.");
       
@@ -324,7 +333,7 @@ export default function SingleBookingFlow({ onClose }) {
               onClick={handleNext}
               style={{ ...navBtnStyle, background: 'var(--color-dusty-lilac)', color: 'white' }}
             >
-              {step === steps.length - 1 ? 'Subscribe Now' : 'Next'} <ChevronRight size={18} />
+              {step === steps.length - 1 ? 'Book Now' : 'Next'} <ChevronRight size={18} />
             </button>
           </div>
         </motion.div>
