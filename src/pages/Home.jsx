@@ -1,10 +1,10 @@
-﻿import { useState } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import BookingFlow from '../components/BookingFlow';
 
 const FEED_IMAGES = [
-  { id: 'img-1', src: '/feed/web_pic_1.jpeg', actionLabel: 'Book Single Appointment', actionType: 'single' },
-  { id: 'img-4', src: '/feed/web_pic_4.jpeg', actionLabel: 'Subscribe', actionType: 'subscribe' },
+  { id: 'img-1', src: '/feed/web_pic_1.jpeg', actionLabel: 'Subscribe', actionType: 'subscribe' },
+  { id: 'img-4', src: '/feed/web_pic_4.jpeg', actionLabel: 'Book Single Appointment', actionType: 'single' },
   { id: 'img-2', src: '/feed/web_pic_2.jpeg' },
   { id: 'img-3', src: '/feed/web_pic_3.jpeg' },
   { id: 'img-5', src: '/feed/web_pic_5.jpeg' },
