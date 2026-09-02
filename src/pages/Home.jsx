@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import BookingFlow from '../components/BookingFlow';
+import SingleBookingFlow from '../components/SingleBookingFlow';
 
 const FEED_IMAGES = [
   { id: 'img-1', src: '/feed/web_pic_1.jpeg', actionLabel: 'Subscribe', actionType: 'subscribe' },
@@ -13,11 +14,11 @@ const FEED_IMAGES = [
 
 export default function Home() {
   const [showSubscribeModal, setShowSubscribeModal] = useState(false);
+  const [showSingleModal, setShowSingleModal] = useState(false);
 
   const handleAction = (type) => {
     if (type === 'single') {
-      const msg = "Hi, Kayla! 💜 I'm interested in your services and would love to book a single appointment to try it out before committing to a subscription. Do you have any availability?";
-      window.open("https://wa.me/27683595032?text=" + encodeURIComponent(msg), "_blank");
+      setShowSingleModal(true);
     } else if (type === 'subscribe') {
       setShowSubscribeModal(true);
     }
@@ -108,6 +109,14 @@ export default function Home() {
           ))}
         </div>
       </div>
+
+      
+      {/* Single Booking Portal Overlay */}
+      {showSingleModal && (
+        <SingleBookingFlow 
+          onClose={() => setShowSingleModal(false)} 
+        />
+      )}
 
       {/* Subscription Portal Overlay */}
       {showSubscribeModal && (
