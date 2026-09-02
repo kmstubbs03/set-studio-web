@@ -286,6 +286,7 @@ export default function BookingFlow({ onClose }) {
           backgroundImage: 'url(/leopard_print_medium.jpg)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
+          backgroundAttachment: 'fixed',
           zIndex: 100,
           display: 'flex',
           flexDirection: 'column',
@@ -298,7 +299,7 @@ export default function BookingFlow({ onClose }) {
       >
         {/* Dark Frosted Glass Overlay */}
         <div style={{
-          position: 'absolute',
+          position: 'fixed',
           top: 0, left: 0, right: 0, bottom: 0,
           background: 'rgba(20, 20, 25, 0.75)',
           backdropFilter: 'blur(25px) saturate(200%)',
