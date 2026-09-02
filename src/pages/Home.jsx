@@ -58,7 +58,7 @@ export default function Home() {
       </div>
 
       {/* Feed Container */}
-      <div style={{ paddingTop: '60px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <div style={{ width: '100%', maxWidth: '500px', display: 'flex', flexDirection: 'column' }}>
           {FEED_IMAGES.map((img, index) => (
             <div key={img.id} style={{ position: 'relative', width: '100%' }}>
