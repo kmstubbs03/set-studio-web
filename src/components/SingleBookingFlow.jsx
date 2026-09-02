@@ -22,10 +22,10 @@ const LENGTH_UPGRADES = {
 };
 
 const ART_UPGRADES = {
-  'Tier 1': { price: 0, name: 'Tier 1' },
-  'Tier 2': { price: 100, name: 'Tier 2' },
-  'Tier 3': { price: 200, name: 'Tier 3' },
-  'Tier 4': { price: 300, name: 'Tier 4' }
+  'Tier 1': { min: 50, max: 100, name: 'Tier 1' },
+  'Tier 2': { min: 100, max: 200, name: 'Tier 2' },
+  'Tier 3': { min: 200, max: 300, name: 'Tier 3' },
+  'Tier 4': { min: 300, max: 400, name: 'Tier 4' }
 };
 
 const AREAS = Object.keys(PRICING);
@@ -51,7 +51,8 @@ export default function SingleBookingFlow({ onClose }) {
 
   const [termsAccepted, setTermsAccepted] = useState(false);
   
-  let currentPrice = PRICING[selectedArea] + LENGTH_UPGRADES[selectedLength].price + ART_UPGRADES[selectedArt].price;
+  let currentMinPrice = PRICING[selectedArea] + LENGTH_UPGRADES[selectedLength].price + ART_UPGRADES[selectedArt].min;
+  let currentMaxPrice = PRICING[selectedArea] + LENGTH_UPGRADES[selectedLength].price + ART_UPGRADES[selectedArt].max;
 
   const generateSteps = () => {
     return [
@@ -84,7 +85,7 @@ export default function SingleBookingFlow({ onClose }) {
             
             <div style={{ marginTop: '10px', background: 'rgba(255,255,255,0.1)', padding: '15px', borderRadius: '12px' }}>
               <div style={{ fontSize: '0.85rem', opacity: 0.8 }}>Estimated Price</div>
-              <div style={{ fontSize: '2rem', fontWeight: 'bold' }}>R {currentPrice.toLocaleString()}</div>
+              <div style={{ fontSize: '2rem', fontWeight: 'bold' }}>R{currentMinPrice} - R{currentMaxPrice}</div>
               <div style={{ fontSize: '0.75rem', opacity: 0.6, marginTop: '5px' }}>Includes travel fees. Final price confirmed on WhatsApp.</div>
             </div>
 
@@ -205,7 +206,7 @@ export default function SingleBookingFlow({ onClose }) {
                 <div style={{ fontSize: '0.85rem', opacity: 0.8 }}>Estimated Total</div>
                 <div style={{ fontSize: '0.7rem', opacity: 0.6, marginTop: '2px' }}>Area + Length + Art</div>
               </div>
-              <div style={{ fontSize: '1.3rem', fontWeight: 'bold', color: 'var(--color-dusty-lilac)' }}>R {currentPrice.toLocaleString()}</div>
+              <div style={{ fontSize: '1.3rem', fontWeight: 'bold', color: 'var(--color-dusty-lilac)' }}>R{currentMinPrice} - R{currentMaxPrice}</div>
             </div>
 
             <div style={{ marginTop: '10px', background: 'rgba(0,0,0,0.2)', padding: '15px', borderRadius: '12px', fontSize: '0.75rem', lineHeight: '1.5', opacity: 0.8, maxHeight: '120px', overflowY: 'auto', border: '1px solid rgba(255,255,255,0.1)' }}>
@@ -245,7 +246,7 @@ export default function SingleBookingFlow({ onClose }) {
       message += `*WhatsApp:* ${whatsapp}\n`;
       message += `*Address:* ${address}\n`;
       message += `*Area:* ${selectedArea}\n`;
-            message += `*Estimated Total:* R${currentPrice}\n\n`;
+            message += `*Estimated Total:* R${currentMinPrice} - R${currentMaxPrice}\n\n`;
       
       message += `*NAIL PREFERENCES:*\n`;
       message += `- Product: ${selectedProduct}\n`;
