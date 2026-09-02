@@ -97,7 +97,7 @@ export default function BookingFlow({ onClose }) {
                 }}
               >
                 {AREAS.map(area => (
-                  <option key={area} value={area} style={{ color: 'black' }}>{area}</option>
+                  <option key={area} value={area} style={{ background: '#2D2838', color: 'white' }}>{area}</option>
                 ))}
               </select>
             </div>
@@ -283,9 +283,9 @@ export default function BookingFlow({ onClose }) {
         style={{
           position: 'fixed',
           top: 0, left: 0, right: 0, bottom: 0,
-          background: 'rgba(20, 20, 25, 0.75)',
-          backdropFilter: 'blur(30px) saturate(200%)',
-          WebkitBackdropFilter: 'blur(30px) saturate(200%)',
+          backgroundImage: 'url(/leopard_stars.jpg)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
           zIndex: 100,
           display: 'flex',
           flexDirection: 'column',
@@ -295,6 +295,16 @@ export default function BookingFlow({ onClose }) {
           padding: '20px'
         }}
       >
+        {/* Dark Frosted Glass Overlay */}
+        <div style={{
+          position: 'absolute',
+          top: 0, left: 0, right: 0, bottom: 0,
+          background: 'rgba(20, 20, 25, 0.75)',
+          backdropFilter: 'blur(25px) saturate(200%)',
+          WebkitBackdropFilter: 'blur(25px) saturate(200%)',
+          zIndex: 0
+        }} />
+
         <button 
           onClick={onClose}
           style={{
