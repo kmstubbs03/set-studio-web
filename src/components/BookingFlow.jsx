@@ -291,15 +291,14 @@ export default function BookingFlow({ onClose }) {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          justifyContent: 'flex-start',
-          overflowY: 'auto',
-          overflowX: 'hidden',
-          padding: '40px 20px'
+          justifyContent: 'center',
+          overflow: 'hidden',
+          padding: '20px'
         }}
       >
         {/* Dark Frosted Glass Overlay */}
         <div style={{
-          position: 'fixed',
+          position: 'absolute',
           top: 0, left: 0, right: 0, bottom: 0,
           background: 'rgba(20, 20, 25, 0.75)',
           backdropFilter: 'blur(25px) saturate(200%)',
@@ -338,7 +337,8 @@ export default function BookingFlow({ onClose }) {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            margin: 'auto 0'
+            maxHeight: 'calc(100vh - 40px)',
+            overflowY: 'auto'
           }}
         >
           <div style={{ fontSize: '0.8rem', opacity: 0.6, textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '10px', color: 'var(--color-dusty-lilac)' }}>
