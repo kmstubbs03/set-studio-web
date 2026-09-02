@@ -147,7 +147,7 @@ export default function BookingFlow({ onClose }) {
               </label>
               <select value={selectedLength} onChange={(e) => setSelectedLength(e.target.value)} style={inputStyle}>
                 {Object.entries(LENGTH_UPGRADES).map(([key, val]) => (
-                  <option key={key} value={key} style={{ background: '#2D2838', color: 'white' }}>{val.name} ({val.price === 0 ? 'Included' : '+R'+val.price})</option>
+                  <option key={key} value={key} style={{ background: '#2D2838', color: 'white' }}>{val.name}</option>
                 ))}
               </select>
             </div>
@@ -164,7 +164,7 @@ export default function BookingFlow({ onClose }) {
               </label>
               <select value={selectedArt} onChange={(e) => setSelectedArt(e.target.value)} style={inputStyle}>
                 {Object.entries(ART_UPGRADES).map(([key, val]) => (
-                  <option key={key} value={key} style={{ background: '#2D2838', color: 'white' }}>{val.name} ({val.price === 0 ? 'Included' : '+R'+val.price})</option>
+                  <option key={key} value={key} style={{ background: '#2D2838', color: 'white' }}>{val.name}</option>
                 ))}
               </select>
             </div>
