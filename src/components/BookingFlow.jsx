@@ -104,9 +104,9 @@ export default function BookingFlow({ onClose }) {
             </div>
             
             <div style={{ marginTop: '10px', background: 'rgba(255,255,255,0.1)', padding: '15px', borderRadius: '12px' }}>
-              <div style={{ fontSize: '0.85rem', opacity: 0.8 }}>Base Subscription</div>
-              <div style={{ fontSize: '2rem', fontWeight: 'bold' }}>R {currentPrice.toLocaleString()}</div>
-              <div style={{ fontSize: '0.75rem', opacity: 0.6, marginTop: '5px' }}>Includes 1x visit per month & travel fees</div>
+              <div style={{ fontSize: '0.85rem', opacity: 0.8 }}>Base Area Fee (Travel Included)</div>
+              <div style={{ fontSize: '2rem', fontWeight: 'bold' }}>R{PRICING[selectedArea]}</div>
+              <div style={{ fontSize: '0.75rem', opacity: 0.6, marginTop: '5px' }}>Includes 1x visit per month. Package selected next.</div>
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '10px' }}>
@@ -195,6 +195,11 @@ export default function BookingFlow({ onClose }) {
                 <div style={{ fontWeight: 'bold' }}>{pkg.price === 0 ? 'Base' : '+R' + pkg.price}</div>
               </div>
             ))}
+            
+            <div style={{ marginTop: '5px', background: 'rgba(255,255,255,0.05)', padding: '12px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)' }}>
+              <div style={{ fontSize: '0.75rem', opacity: 0.8, marginBottom: '4px' }}>Monthly Debit Order (Area + Package)</div>
+              <div style={{ fontSize: '1.1rem', fontWeight: 'bold', color: 'var(--color-dusty-lilac)' }}>R{currentPrice}</div>
+            </div>
           </div>
         )
       },
@@ -221,6 +226,14 @@ export default function BookingFlow({ onClose }) {
         title: 'Your Details',
         content: (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '15px', textAlign: 'left', width: '100%' }}>
+            <div style={{ background: 'rgba(255,255,255,0.1)', padding: '15px', borderRadius: '12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div>
+                <div style={{ fontSize: '0.85rem', opacity: 0.8 }}>Monthly Debit Order</div>
+                <div style={{ fontSize: '0.7rem', opacity: 0.6, marginTop: '2px' }}>Area + Package</div>
+              </div>
+              <div style={{ fontSize: '1.3rem', fontWeight: 'bold', color: 'var(--color-dusty-lilac)' }}>R{currentPrice}</div>
+            </div>
+            
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
               <label style={{ fontSize: '0.85rem', fontWeight: 'bold' }}>Full Name</label>
               <input type="text" placeholder="e.g. Kayla Stubbs" style={inputStyle} value={fullName} onChange={e => setFullName(e.target.value)} />
