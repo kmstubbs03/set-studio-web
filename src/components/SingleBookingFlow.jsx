@@ -84,9 +84,9 @@ export default function SingleBookingFlow({ onClose }) {
             </div>
             
             <div style={{ marginTop: '10px', background: 'rgba(255,255,255,0.1)', padding: '15px', borderRadius: '12px' }}>
-              <div style={{ fontSize: '0.85rem', opacity: 0.8 }}>Estimated Price</div>
-              <div style={{ fontSize: '2rem', fontWeight: 'bold' }}>R{currentMinPrice} - R{currentMaxPrice}</div>
-              <div style={{ fontSize: '0.75rem', opacity: 0.6, marginTop: '5px' }}>Includes travel fees. Final price confirmed on WhatsApp.</div>
+              <div style={{ fontSize: '0.85rem', opacity: 0.8 }}>Base Price (Travel Included)</div>
+              <div style={{ fontSize: '2rem', fontWeight: 'bold' }}>R{PRICING[selectedArea]}</div>
+              <div style={{ fontSize: '0.75rem', opacity: 0.6, marginTop: '5px' }}>Nail art and length upgrades will be added in the next step.</div>
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '10px' }}>
@@ -164,6 +164,11 @@ export default function SingleBookingFlow({ onClose }) {
               <p style={{ fontSize: '0.75rem', opacity: 0.9, margin: 0, lineHeight: '1.4' }}>
                 You will need to send a reference photo of your desired set via WhatsApp so I can prep accordingly!
               </p>
+            </div>
+            
+            <div style={{ marginTop: '5px', background: 'rgba(255,255,255,0.05)', padding: '12px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)' }}>
+              <div style={{ fontSize: '0.75rem', opacity: 0.8, marginBottom: '4px' }}>Current Estimate (Area + Length + Art)</div>
+              <div style={{ fontSize: '1.1rem', fontWeight: 'bold', color: 'var(--color-dusty-lilac)' }}>R{currentMinPrice} - R{currentMaxPrice}</div>
             </div>
           </div>
         )
