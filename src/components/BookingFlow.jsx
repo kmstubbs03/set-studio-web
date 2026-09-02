@@ -206,9 +206,9 @@ export default function BookingFlow({ onClose }) {
             </p>
             <CustomCalendar 
               selectedDate={selectedDate} 
-              onDateSelect={setSelectedDate} 
+              setSelectedDate={setSelectedDate} 
               selectedTimes={selectedTimes}
-              onTimesSelect={setSelectedTimes}
+              setSelectedTimes={setSelectedTimes}
               maxSelectableDates={1}
             />
           </div>
