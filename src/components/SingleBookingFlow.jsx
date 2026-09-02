@@ -16,6 +16,7 @@ const PRICING = {
 const LENGTH_UPGRADES = {
   'Short': { price: 0, name: 'Short' },
   'Medium': { price: 0, name: 'Medium' },
+  'Medium Long': { price: 50, name: 'Medium Long' },
   'Long': { price: 100, name: 'Long' },
   'XL': { price: 150, name: 'XL' },
   'XXL': { price: 200, name: 'XXL' }
