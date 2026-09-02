@@ -251,23 +251,23 @@ export default function SingleBookingFlow({ onClose }) {
       if (!fullName || !whatsapp) return alert("Please fill in your details.");
       if (!termsAccepted) return alert("You must accept the terms & conditions.");
       
-      let message = `*NEW SINGLE APPOINTMENT!*\n\n`;
-      message += `*Name:* ${fullName}\n`;
-      message += `*WhatsApp:* ${whatsapp}\n`;
-      message += `*Address:* ${address}\n`;
-      message += `*Area:* ${selectedArea}\n`;
-            message += `*Estimated Total:* ${priceDisplay}\n\n`;
+      let message = `💅 *NEW SINGLE APPOINTMENT!* 💅\n\n`;
+      message += `👤 *Name:* ${fullName}\n`;
+      message += `📱 *WhatsApp:* ${whatsapp}\n`;
+      message += `📍 *Address:* ${address}\n`;
+      message += `🚗 *Area:* ${selectedArea}\n`;
+            message += `💰 *Estimated Total:* ${priceDisplay}\n\n`;
       
-      message += `*NAIL PREFERENCES:*\n`;
-      message += `- Product: ${selectedProduct}\n`;
-      message += `- Length: ${selectedLength}\n`;
-      message += `- Art Tier: ${selectedArt}\n`;
-      message += `- Soak-off Needed: ${needsSoakOff ? 'Yes' : 'No'}\n\n`;
+      message += `✨ *NAIL PREFERENCES:*\n`;
+      message += `🫧 - Product: ${selectedProduct}\n`;
+      message += `📏 - Length: ${selectedLength}\n`;
+      message += `🎨 - Art Tier: ${selectedArt}\n`;
+      message += `💧 - Soak-off Needed: ${needsSoakOff ? 'Yes' : 'No'}\n\n`;
 
-      message += `*Preferred Date:* ${selectedDate.toDateString()}\n`;
-      message += `*Preferred Times:* ${selectedTimes.length > 0 ? selectedTimes.join(', ') : 'Any time'}\n\n`;
+      message += `📅 *Preferred Date:* ${selectedDate.toDateString()}\n`;
+      message += `⏰ *Preferred Times:* ${selectedTimes.length > 0 ? selectedTimes.join(', ') : 'Any time'}\n\n`;
 
-      message += `I agree to the T&Cs. I will send my reference photo shortly to confirm the final price!`;
+      message += `✅ I agree to the T&Cs. I will send my reference photo shortly to confirm the final price!`;
       
       window.open("https://wa.me/27683595032?text=" + encodeURIComponent(message), "_blank");
       onClose();
