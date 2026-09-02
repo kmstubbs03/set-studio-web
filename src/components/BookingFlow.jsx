@@ -42,6 +42,7 @@ const LENGTH_UPGRADES = {
 };
 
 const ART_UPGRADES = {
+  'No Art': { price: 0, name: 'No Art' },
   'Tier 1': { price: 0, name: 'Tier 1' },
   'Tier 2': { price: 100, name: 'Tier 2' },
   'Tier 3': { price: 200, name: 'Tier 3' },
@@ -56,7 +57,7 @@ export default function BookingFlow({ onClose }) {
   const [selectedPackage, setSelectedPackage] = useState('basic');
   const [selectedProduct, setSelectedProduct] = useState('Acrylic');
   const [selectedLength, setSelectedLength] = useState('Short');
-  const [selectedArt, setSelectedArt] = useState('Tier 1');
+  const [selectedArt, setSelectedArt] = useState('No Art');
   const [showLengthModal, setShowLengthModal] = useState(false);
   const [showArtModal, setShowArtModal] = useState(false);
   

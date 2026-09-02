@@ -22,6 +22,7 @@ const LENGTH_UPGRADES = {
 };
 
 const ART_UPGRADES = {
+  'No Art': { min: 0, max: 0, name: 'No Art' },
   'Tier 1': { min: 50, max: 100, name: 'Tier 1' },
   'Tier 2': { min: 100, max: 200, name: 'Tier 2' },
   'Tier 3': { min: 200, max: 300, name: 'Tier 3' },
@@ -35,7 +36,7 @@ export default function SingleBookingFlow({ onClose }) {
   const [selectedArea, setSelectedArea] = useState(AREAS[0]);
     const [selectedProduct, setSelectedProduct] = useState('Acrylic');
   const [selectedLength, setSelectedLength] = useState('Short');
-  const [selectedArt, setSelectedArt] = useState('Tier 1');
+  const [selectedArt, setSelectedArt] = useState('No Art');
   const [needsSoakOff, setNeedsSoakOff] = useState(false);
   const [showLengthModal, setShowLengthModal] = useState(false);
   const [showArtModal, setShowArtModal] = useState(false);
@@ -51,8 +52,11 @@ export default function SingleBookingFlow({ onClose }) {
 
   const [termsAccepted, setTermsAccepted] = useState(false);
   
+  
   let currentMinPrice = PRICING[selectedArea] + LENGTH_UPGRADES[selectedLength].price + ART_UPGRADES[selectedArt].min;
   let currentMaxPrice = PRICING[selectedArea] + LENGTH_UPGRADES[selectedLength].price + ART_UPGRADES[selectedArt].max;
+  let priceDisplay = currentMinPrice === currentMaxPrice ? `R${currentMinPrice}` : `R${currentMinPrice} - R${currentMaxPrice}`;
+
 
   const generateSteps = () => {
     return [
@@ -168,7 +172,7 @@ export default function SingleBookingFlow({ onClose }) {
             
             <div style={{ marginTop: '5px', background: 'rgba(255,255,255,0.05)', padding: '12px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)' }}>
               <div style={{ fontSize: '0.75rem', opacity: 0.8, marginBottom: '4px' }}>Current Estimate (Area + Length + Art)</div>
-              <div style={{ fontSize: '1.1rem', fontWeight: 'bold', color: 'var(--color-dusty-lilac)' }}>R{currentMinPrice} - R{currentMaxPrice}</div>
+              <div style={{ fontSize: '1.1rem', fontWeight: 'bold', color: 'var(--color-dusty-lilac)' }}>{priceDisplay}</div>
             </div>
           </div>
         )
@@ -211,7 +215,7 @@ export default function SingleBookingFlow({ onClose }) {
                 <div style={{ fontSize: '0.85rem', opacity: 0.8 }}>Estimated Total</div>
                 <div style={{ fontSize: '0.7rem', opacity: 0.6, marginTop: '2px' }}>Area + Length + Art</div>
               </div>
-              <div style={{ fontSize: '1.3rem', fontWeight: 'bold', color: 'var(--color-dusty-lilac)' }}>R{currentMinPrice} - R{currentMaxPrice}</div>
+              <div style={{ fontSize: '1.3rem', fontWeight: 'bold', color: 'var(--color-dusty-lilac)' }}>{priceDisplay}</div>
             </div>
 
             <div style={{ marginTop: '10px', background: 'rgba(0,0,0,0.2)', padding: '15px', borderRadius: '12px', fontSize: '0.75rem', lineHeight: '1.5', opacity: 0.8, maxHeight: '120px', overflowY: 'auto', border: '1px solid rgba(255,255,255,0.1)' }}>
@@ -251,7 +255,7 @@ export default function SingleBookingFlow({ onClose }) {
       message += `*WhatsApp:* ${whatsapp}\n`;
       message += `*Address:* ${address}\n`;
       message += `*Area:* ${selectedArea}\n`;
-            message += `*Estimated Total:* R${currentMinPrice} - R${currentMaxPrice}\n\n`;
+            message += `*Estimated Total:* ${priceDisplay}\n\n`;
       
       message += `*NAIL PREFERENCES:*\n`;
       message += `- Product: ${selectedProduct}\n`;
