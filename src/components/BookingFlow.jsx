@@ -6,8 +6,8 @@ import CustomCalendar from './CustomCalendar';
 
 const PRICING = {
   'Kraaifontein, Durbanville & Surrounds': 600,
-  'Table View, Blouberg & Surrounds': 750,
-  'Southern Suburbs & Surrounds': 850,
+  'Table View, Blouberg & Surrounds': 800,
+  'Southern Suburbs & Surrounds': 900,
   'CBD, Atlantic Seaboard & Surrounds': 1000,
   'Other Area (Custom Travel Quote)': 600
 };
