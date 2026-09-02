@@ -6,25 +6,25 @@ import CustomCalendar from './CustomCalendar';
 
 const PRICING = {
   'nails': {
-    'Kraaifontein, Durbanville & Surrounds': 1000,
-    'Table View, Blouberg & Surrounds': 1300,
-    'Southern Suburbs & Surrounds': 1500,
-    'CBD, Atlantic Seaboard & Surrounds': 1800,
-    'Other Area (Custom Travel Quote)': 1000
+    'Kraaifontein, Durbanville & Surrounds': 600,
+    'Table View, Blouberg & Surrounds': 750,
+    'Southern Suburbs & Surrounds': 850,
+    'CBD, Atlantic Seaboard & Surrounds': 1000,
+    'Other Area (Custom Travel Quote)': 600
   },
   'lashes': {
-    'Kraaifontein, Durbanville & Surrounds': 800,
-    'Table View, Blouberg & Surrounds': 1000,
-    'Southern Suburbs & Surrounds': 1200,
-    'CBD, Atlantic Seaboard & Surrounds': 1400,
-    'Other Area (Custom Travel Quote)': 800
+    'Kraaifontein, Durbanville & Surrounds': 550,
+    'Table View, Blouberg & Surrounds': 700,
+    'Southern Suburbs & Surrounds': 800,
+    'CBD, Atlantic Seaboard & Surrounds': 900,
+    'Other Area (Custom Travel Quote)': 550
   },
   'the-set': {
-    'Kraaifontein, Durbanville & Surrounds': 1500,
-    'Table View, Blouberg & Surrounds': 2000,
-    'Southern Suburbs & Surrounds': 2400,
-    'CBD, Atlantic Seaboard & Surrounds': 2900,
-    'Other Area (Custom Travel Quote)': 1500
+    'Kraaifontein, Durbanville & Surrounds': 1000,
+    'Table View, Blouberg & Surrounds': 1200,
+    'Southern Suburbs & Surrounds': 1400,
+    'CBD, Atlantic Seaboard & Surrounds': 1600,
+    'Other Area (Custom Travel Quote)': 1000
   }
 };
 
@@ -154,7 +154,7 @@ export default function BookingFlow({ worldId, worldTitle, onClose }) {
               <div style={{ background: 'rgba(255,255,255,0.2)', padding: '15px', borderRadius: '12px', fontSize: '0.85rem', lineHeight: '1.5' }}>
                 <strong style={{ display: 'block', marginBottom: '8px', color: 'var(--color-slate-plum)' }}>What's Included in The Set?</strong>
                 <ul style={{ paddingLeft: '20px', margin: 0, display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                  <li><strong>2x mobile visits</strong> per month to your selected area</li>
+                  <li><strong>1x mobile visit</strong> per month to your selected area</li>
                   <li><strong>Each visit includes:</strong>
                     <ul style={{ paddingLeft: '20px', marginTop: '4px', display: 'flex', flexDirection: 'column', gap: '4px', listStyleType: 'circle' }}>
                       <li>Fresh Base Nail set (Tier 1 Art & up to Medium Length)</li>
@@ -172,7 +172,7 @@ export default function BookingFlow({ worldId, worldTitle, onClose }) {
             <div style={{ marginTop: '10px', background: 'rgba(255,255,255,0.1)', padding: '15px', borderRadius: '12px' }}>
               <div style={{ fontSize: '0.85rem', opacity: 0.8 }}>Base {worldId === 'lashes' ? 'Service' : 'Subscription'}</div>
               <div style={{ fontSize: '2rem', fontWeight: 'bold' }}>R {currentPrice.toLocaleString()}</div>
-              {(worldId === 'nails') && <div style={{ fontSize: '0.75rem', opacity: 0.6, marginTop: '5px' }}>Includes 2x visits & travel fees</div>}
+              {(worldId === 'nails') && <div style={{ fontSize: '0.75rem', opacity: 0.6, marginTop: '5px' }}>Includes 1x visit & travel fees</div>}
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '10px' }}>
@@ -648,21 +648,21 @@ export default function BookingFlow({ worldId, worldTitle, onClose }) {
     <AnimatePresence>
       <motion.div
         initial={{ opacity: 0, backdropFilter: 'blur(0px)' }}
-        animate={{ opacity: 1, backdropFilter: 'blur(20px)' }}
+        animate={{ opacity: 1, backdropFilter: 'blur(30px)' }}
         exit={{ opacity: 0, backdropFilter: 'blur(0px)' }}
         style={{
           position: 'fixed',
           top: 0, left: 0, right: 0, bottom: 0,
-          backgroundImage: 'url(/leopard_stars.jpg)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
+          background: 'rgba(20, 20, 25, 0.75)',
+          backdropFilter: 'blur(30px) saturate(200%)',
+          WebkitBackdropFilter: 'blur(30px) saturate(200%)',
           zIndex: 100,
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
           overflow: 'hidden',
-          perspective: '1000px'
+          padding: '20px'
         }}
       >
         <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.3)', zIndex: 101 }} />
