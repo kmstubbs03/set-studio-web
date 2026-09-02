@@ -116,24 +116,6 @@ export default function BookingFlow({ onClose }) {
         )
       },
       {
-        id: 'package',
-        title: 'Choose Package',
-        content: (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '15px', textAlign: 'left', width: '100%' }}>
-            <p style={{ opacity: 0.8, fontSize: '0.85rem' }}>Select your monthly subscription tier.</p>
-            {Object.values(SUBSCRIPTION_PACKAGES).map(pkg => (
-              <div key={pkg.id} onClick={() => setSelectedPackage(pkg.id)} style={radioContainerStyle(selectedPackage === pkg.id)}>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                  <span style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>{pkg.name}</span>
-                  <span style={{ fontSize: '0.8rem', opacity: 0.8 }}>{pkg.description}</span>
-                </div>
-                <div style={{ fontWeight: 'bold' }}>{pkg.price === 0 ? 'Base' : '+R' + pkg.price}</div>
-              </div>
-            ))}
-          </div>
-        )
-      },
-      {
         id: 'upgrades',
         title: 'Appointment Preferences',
         content: (
@@ -158,7 +140,7 @@ export default function BookingFlow({ onClose }) {
                 Preferred Length{' '}
                 <span 
                   onClick={() => setShowLengthModal(true)}
-                  style={{ color: 'var(--color-slate-plum)', cursor: 'pointer', textDecoration: 'underline', fontWeight: 'bold' }}
+                  style={{ color: 'var(--color-dusty-lilac)', cursor: 'pointer', textDecoration: 'underline', fontWeight: 'bold' }}
                 >
                   (see reference photo)
                 </span>
@@ -175,7 +157,7 @@ export default function BookingFlow({ onClose }) {
                 Preferred Art Tier{' '}
                 <span 
                   onClick={() => setShowArtModal(true)}
-                  style={{ color: 'var(--color-slate-plum)', cursor: 'pointer', textDecoration: 'underline', fontWeight: 'bold' }}
+                  style={{ color: 'var(--color-dusty-lilac)', cursor: 'pointer', textDecoration: 'underline', fontWeight: 'bold' }}
                 >
                   (see reference photo)
                 </span>
@@ -188,11 +170,29 @@ export default function BookingFlow({ onClose }) {
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '5px', background: 'rgba(255,255,255,0.1)', padding: '12px', borderRadius: '8px' }}>
-              <strong style={{ fontSize: '0.85rem', color: 'var(--color-slate-plum)' }}>Reference Photos Required!</strong>
+              <strong style={{ fontSize: '0.85rem', color: 'var(--color-dusty-lilac)' }}>Reference Photos Required!</strong>
               <p style={{ fontSize: '0.75rem', opacity: 0.9, margin: 0, lineHeight: '1.4' }}>
                 You will need to send a reference photo of your desired set via WhatsApp so I can prep accordingly!
               </p>
             </div>
+          </div>
+        )
+      },
+      {
+        id: 'package',
+        title: 'Choose Package',
+        content: (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '15px', textAlign: 'left', width: '100%' }}>
+            <p style={{ opacity: 0.8, fontSize: '0.85rem' }}>Select your monthly subscription tier.</p>
+            {Object.values(SUBSCRIPTION_PACKAGES).map(pkg => (
+              <div key={pkg.id} onClick={() => setSelectedPackage(pkg.id)} style={radioContainerStyle(selectedPackage === pkg.id)}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                  <span style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>{pkg.name}</span>
+                  <span style={{ fontSize: '0.8rem', opacity: 0.8 }}>{pkg.description}</span>
+                </div>
+                <div style={{ fontWeight: 'bold' }}>{pkg.price === 0 ? 'Base' : '+R' + pkg.price}</div>
+              </div>
+            ))}
           </div>
         )
       },
@@ -414,7 +414,7 @@ const radioContainerStyle = (selected) => ({
   alignItems: 'center',
   padding: '15px',
   borderRadius: '12px',
-  border: selected ? '2px solid var(--color-slate-plum)' : '2px solid rgba(0,0,0,0.1)',
+  border: selected ? '2px solid var(--color-dusty-lilac)' : '2px solid rgba(0,0,0,0.1)',
   background: selected ? 'rgba(255,255,255,0.5)' : 'transparent',
   cursor: 'pointer',
   transition: 'all 0.2s ease'
@@ -424,11 +424,11 @@ const navBtnStyle = {
   display: 'flex',
   alignItems: 'center',
   gap: '5px',
-  background: 'rgba(0,0,0,0.05)',
+  background: 'rgba(255,255,255,0.1)',
   border: 'none',
   padding: '10px 20px',
   borderRadius: '20px',
-  color: 'var(--color-slate-plum)',
+  color: 'var(--color-dusty-lilac)',
   fontWeight: 'bold',
   cursor: 'pointer',
   fontSize: '0.9rem'
