@@ -341,18 +341,18 @@ export default function BookingFlow({ onClose }) {
             overflowY: 'auto'
           }}
         >
-          <div style={{ fontSize: '0.8rem', opacity: 0.6, textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '10px', color: 'var(--color-dusty-lilac)' }}>
+          <div style={{ flexShrink: 0, fontSize: '0.8rem', opacity: 0.6, textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '10px', color: 'var(--color-dusty-lilac)' }}>
             Step {step + 1} of {steps.length}
           </div>
           <h2 style={{ margin: '0 0 20px 0', fontSize: '1.8rem', fontFamily: 'var(--font-heading)', color: 'var(--color-dusty-lilac)' }}>
             {steps[step].title}
           </h2>
 
-          <div style={{ width: '100%', minHeight: '300px' }}>
+          <div style={{ width: '100%', minHeight: '300px', flexShrink: 0 }}>
             {steps[step].content}
           </div>
 
-          <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', marginTop: '30px', borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '20px' }}>
+          <div style={{ flexShrink: 0, display: 'flex', justifyContent: 'space-between', width: '100%', marginTop: '30px', borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '20px' }}>
             <button 
               onClick={() => setStep(s => Math.max(0, s - 1))}
               style={{ ...navBtnStyle, opacity: step === 0 ? 0 : 1, pointerEvents: step === 0 ? 'none' : 'auto' }}
