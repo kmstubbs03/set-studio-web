@@ -70,8 +70,8 @@ const CustomCalendar = ({ selectedDate, setSelectedDate, selectedTimes, setSelec
           onClick={() => handleDateSelect(d)}
           style={{
             padding: '10px 5px',
-            background: isSelected ? 'var(--color-slate-plum)' : 'rgba(255, 255, 255, 0.65)',
-            color: isSelected ? 'white' : 'var(--color-slate-plum)',
+            background: isSelected ? 'var(--color-dusty-lilac)' : 'rgba(255, 255, 255, 0.65)',
+            color: isSelected ? 'white' : 'var(--color-dusty-lilac)',
             border: isSelected ? 'none' : '1px solid rgba(0,0,0,0.1)',
             borderRadius: '8px',
             cursor: 'pointer',
@@ -101,7 +101,7 @@ const CustomCalendar = ({ selectedDate, setSelectedDate, selectedTimes, setSelec
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
       
-      {/* Calendar Area with Cheetah Background */}
+      {/* Calendar Area */}
       <div style={{ 
         position: 'relative',
         borderRadius: '16px',
@@ -109,14 +109,13 @@ const CustomCalendar = ({ selectedDate, setSelectedDate, selectedTimes, setSelec
         boxShadow: '0 4px 15px rgba(0,0,0,0.05)',
         border: '1px solid rgba(255,255,255,0.3)'
       }}>
-        {/* Cheetah Background Image */}
+        {/* Apple Glass Background */}
         <div style={{
           position: 'absolute',
           top: 0, left: 0, right: 0, bottom: 0,
-          backgroundImage: 'url(/leopard_print_medium.jpg)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          filter: 'grayscale(100%) opacity(0.25)', // Monochromatic styling, slightly darker
+          background: 'rgba(255, 255, 255, 0.4)',
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
           zIndex: 0
         }} />
 
@@ -129,13 +128,13 @@ const CustomCalendar = ({ selectedDate, setSelectedDate, selectedTimes, setSelec
         }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
             <button onClick={prevMonth} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '5px', display: 'flex', alignItems: 'center' }}>
-              <ChevronLeft size={20} color="var(--color-slate-plum)" />
+              <ChevronLeft size={20} color="var(--color-dusty-lilac)" />
             </button>
-            <div style={{ fontWeight: 'bold', fontSize: '1.1rem', color: 'var(--color-slate-plum)' }}>
+            <div style={{ fontWeight: 'bold', fontSize: '1.1rem', color: 'var(--color-dusty-lilac)' }}>
               {monthNames[currentDate.getMonth()]} {currentDate.getFullYear()}
             </div>
             <button onClick={nextMonth} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '5px', display: 'flex', alignItems: 'center' }}>
-              <ChevronRight size={20} color="var(--color-slate-plum)" />
+              <ChevronRight size={20} color="var(--color-dusty-lilac)" />
             </button>
           </div>
 
@@ -149,7 +148,7 @@ const CustomCalendar = ({ selectedDate, setSelectedDate, selectedTimes, setSelec
                 exit={{ opacity: 0, height: 0 }}
                 style={{ marginTop: '20px', overflow: 'hidden' }}
               >
-                <div style={{ fontSize: '0.85rem', fontWeight: 'bold', marginBottom: '10px', color: 'var(--color-slate-plum)' }}>
+                <div style={{ fontSize: '0.85rem', fontWeight: 'bold', marginBottom: '10px', color: 'var(--color-dusty-lilac)' }}>
                   Select up to 3 preferred times:
                 </div>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
@@ -164,8 +163,8 @@ const CustomCalendar = ({ selectedDate, setSelectedDate, selectedTimes, setSelec
                         style={{
                           padding: '8px 12px',
                           borderRadius: '20px',
-                          background: isSelected ? 'var(--color-slate-plum)' : 'rgba(255,255,255,0.8)',
-                          color: isSelected ? 'white' : (isMax ? 'rgba(0,0,0,0.3)' : 'var(--color-slate-plum)'),
+                          background: isSelected ? 'var(--color-dusty-lilac)' : 'rgba(255,255,255,0.8)',
+                          color: isSelected ? 'white' : (isMax ? 'rgba(0,0,0,0.3)' : 'var(--color-dusty-lilac)'),
                           border: isSelected ? 'none' : '1px solid rgba(0,0,0,0.1)',
                           cursor: isMax ? 'not-allowed' : 'pointer',
                           fontWeight: 'bold',
@@ -185,7 +184,7 @@ const CustomCalendar = ({ selectedDate, setSelectedDate, selectedTimes, setSelec
       </div>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-        <label style={{ fontSize: '0.85rem', fontWeight: 'bold', color: 'var(--color-slate-plum)' }}>
+        <label style={{ fontSize: '0.85rem', fontWeight: 'bold', color: 'var(--color-dusty-lilac)' }}>
           Any specific booking instructions?
         </label>
         <textarea 
