@@ -204,8 +204,8 @@ export default function SingleBookingFlow({ onClose }) {
               <ul style={{ margin: 0, paddingLeft: '15px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
                 <li>A non-refundable deposit is required to secure your booking.</li>
                 <li>The quoted price is an estimate. The final price will be confirmed via WhatsApp once reference pictures are reviewed.</li>
-                <li>Please ensure a clean, well-lit table with two chairs is available for the appointment.</li>
-                <li>Nails must be completely bare prior to the appointment unless a soak-off was requested in advance.</li>
+                <li>Please ensure a table and two chairs are available for the appointment.</li>
+                <li>Soak-offs are included in the price but must be requested when booking your appointment.</li>
                 <li>Cancellations or rescheduling must be done at least 24 hours prior to the appointment.</li>
               </ul>
             </div>
