@@ -283,7 +283,7 @@ export default function BookingFlow({ onClose }) {
         style={{
           position: 'fixed',
           top: 0, left: 0, right: 0, bottom: 0,
-          backgroundImage: 'url(/leopard_stars.jpg)',
+          backgroundImage: 'url(/leopard_print_medium.jpg)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           zIndex: 100,
