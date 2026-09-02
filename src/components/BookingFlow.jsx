@@ -197,7 +197,7 @@ export default function BookingFlow({ onClose }) {
             ))}
             
             <div style={{ marginTop: '5px', background: 'rgba(255,255,255,0.05)', padding: '12px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)' }}>
-              <div style={{ fontSize: '0.75rem', opacity: 0.8, marginBottom: '4px' }}>Monthly Debit Order (Area + Package)</div>
+              <div style={{ fontSize: '0.75rem', opacity: 0.8, marginBottom: '4px' }}>Monthly Total</div>
               <div style={{ fontSize: '1.1rem', fontWeight: 'bold', color: 'var(--color-dusty-lilac)' }}>R{currentPrice}</div>
             </div>
           </div>
@@ -228,8 +228,8 @@ export default function BookingFlow({ onClose }) {
           <div style={{ display: 'flex', flexDirection: 'column', gap: '15px', textAlign: 'left', width: '100%' }}>
             <div style={{ background: 'rgba(255,255,255,0.1)', padding: '15px', borderRadius: '12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <div>
-                <div style={{ fontSize: '0.85rem', opacity: 0.8 }}>Monthly Debit Order</div>
-                <div style={{ fontSize: '0.7rem', opacity: 0.6, marginTop: '2px' }}>Area + Package</div>
+                <div style={{ fontSize: '0.85rem', opacity: 0.8 }}>Monthly Total</div>
+                <div style={{ fontSize: '0.7rem', opacity: 0.6, marginTop: '2px' }}>Travel Included</div>
               </div>
               <div style={{ fontSize: '1.3rem', fontWeight: 'bold', color: 'var(--color-dusty-lilac)' }}>R{currentPrice}</div>
             </div>
@@ -246,7 +246,7 @@ export default function BookingFlow({ onClose }) {
             <label style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', marginTop: '10px', cursor: 'pointer' }}>
               <input type="checkbox" checked={termsAccepted} onChange={e => setTermsAccepted(e.target.checked)} style={{ marginTop: '4px' }} />
               <span style={{ fontSize: '0.8rem', opacity: 0.9, lineHeight: '1.4' }}>
-                I agree to the T&Cs. Note: 1st month subscription is payable upfront to secure your spot. Thereafter, you will be billed on the 1st of every month via debit order. Travel fee is included in the base price.
+                I agree to the T&Cs. Note: 1st month subscription is payable upfront to secure your spot. Thereafter, you will be billed on the 1st of every month. Travel fee is included in the base price.
               </span>
             </label>
           </div>
@@ -280,7 +280,7 @@ export default function BookingFlow({ onClose }) {
       message += `*Preferred Date:* ${selectedDate.toDateString()}\n`;
       message += `*Preferred Times:* ${selectedTimes.length > 0 ? selectedTimes.join(', ') : 'Any time'}\n\n`;
 
-      message += `I agree to the T&Cs and the monthly debit order structure. I will send my reference photo shortly!`;
+      message += `I agree to the T&Cs. I will send my reference photo shortly!`;
       
       window.open("https://wa.me/27683595032?text=" + encodeURIComponent(message), "_blank");
       onClose();
