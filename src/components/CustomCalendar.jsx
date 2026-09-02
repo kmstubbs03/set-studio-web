@@ -69,7 +69,7 @@ const CustomCalendar = ({ selectedDate, setSelectedDate, selectedTimes, setSelec
           key={d}
           onClick={() => handleDateSelect(d)}
           style={{
-            padding: '10px 5px',
+            padding: '8px 2px',
             background: isSelected ? 'var(--color-dusty-lilac)' : 'rgba(255, 255, 255, 0.65)',
             color: isSelected ? 'white' : 'var(--color-dusty-lilac)',
             border: isSelected ? 'none' : '1px solid rgba(0,0,0,0.1)',
@@ -89,7 +89,7 @@ const CustomCalendar = ({ selectedDate, setSelectedDate, selectedTimes, setSelec
     }
 
     return (
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '5px', textAlign: 'center', fontSize: '0.9rem' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '2px', textAlign: 'center', fontSize: '0.9rem' }}>
         {weekDays.map((d, i) => <div key={i} style={{ fontWeight: 'bold', paddingBottom: '10px', opacity: 0.7 }}>{d}</div>)}
         {days}
       </div>
@@ -105,7 +105,7 @@ const CustomCalendar = ({ selectedDate, setSelectedDate, selectedTimes, setSelec
       <div style={{ 
         position: 'relative',
         borderRadius: '16px',
-        overflow: 'hidden',
+        overflow: 'hidden', boxSizing: 'border-box',
         boxShadow: '0 4px 15px rgba(0,0,0,0.05)',
         border: '1px solid rgba(255,255,255,0.3)'
       }}>

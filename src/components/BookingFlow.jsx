@@ -331,7 +331,7 @@ export default function BookingFlow({ onClose }) {
             borderRadius: '24px',
             padding: '30px',
             maxWidth: '500px',
-            width: '100%',
+            width: '100%', boxSizing: 'border-box',
             color: 'white',
             zIndex: 105,
             display: 'flex',
@@ -348,11 +348,11 @@ export default function BookingFlow({ onClose }) {
             {steps[step].title}
           </h2>
 
-          <div style={{ width: '100%', minHeight: '300px', flexShrink: 0 }}>
+          <div style={{ width: '100%', boxSizing: 'border-box', minHeight: '300px', flexShrink: 0 }}>
             {steps[step].content}
           </div>
 
-          <div style={{ flexShrink: 0, display: 'flex', justifyContent: 'space-between', width: '100%', marginTop: '30px', borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '20px' }}>
+          <div style={{ flexShrink: 0, display: 'flex', justifyContent: 'space-between', width: '100%', boxSizing: 'border-box', marginTop: '30px', borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '20px' }}>
             <button 
               onClick={() => setStep(s => Math.max(0, s - 1))}
               style={{ ...navBtnStyle, opacity: step === 0 ? 0 : 1, pointerEvents: step === 0 ? 'none' : 'auto' }}
@@ -387,10 +387,10 @@ export default function BookingFlow({ onClose }) {
           >
             <button style={{ position: 'absolute', top: '20px', left: '20px', background: 'none', border: 'none', color: 'white', cursor: 'pointer' }} onClick={() => setShowArtModal(false)}><X size={32} /></button>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', maxWidth: '500px', width: '100%' }} onClick={e => e.stopPropagation()}>
-              <img src="/tier1.jpg" alt="Tier 1" style={{ width: '100%', borderRadius: '12px' }} />
-              <img src="/tier2.jpg" alt="Tier 2" style={{ width: '100%', borderRadius: '12px' }} />
-              <img src="/tier3.jpg" alt="Tier 3" style={{ width: '100%', borderRadius: '12px' }} />
-              <img src="/tier4.jpg" alt="Tier 4" style={{ width: '100%', borderRadius: '12px' }} />
+              <img src="/tier1.jpg" alt="Tier 1" style={{ width: '100%', boxSizing: 'border-box', borderRadius: '12px' }} />
+              <img src="/tier2.jpg" alt="Tier 2" style={{ width: '100%', boxSizing: 'border-box', borderRadius: '12px' }} />
+              <img src="/tier3.jpg" alt="Tier 3" style={{ width: '100%', boxSizing: 'border-box', borderRadius: '12px' }} />
+              <img src="/tier4.jpg" alt="Tier 4" style={{ width: '100%', boxSizing: 'border-box', borderRadius: '12px' }} />
             </div>
           </motion.div>
         )}
@@ -400,7 +400,7 @@ export default function BookingFlow({ onClose }) {
 }
 
 const inputStyle = {
-  width: '100%',
+  width: '100%', boxSizing: 'border-box',
   padding: '12px 15px',
   borderRadius: '8px',
   border: '1px solid rgba(0,0,0,0.1)',
