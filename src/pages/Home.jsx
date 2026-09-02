@@ -10,6 +10,10 @@ const FEED_IMAGES = [
   { id: 'img-3', src: '/feed/web_pic_3.jpeg' },
   { id: 'img-5', src: '/feed/web_pic_5.jpeg' },
   { id: 'img-6', src: '/feed/web_pic_6.jpeg' },
+  { id: 'img-7', src: '/feed/web_pic_7.jpeg' },
+  { id: 'img-8', src: '/feed/web_pic_8.jpeg' },
+  { id: 'img-9', src: '/feed/web_pic_9.jpeg' },
+  { id: 'img-10', src: '/feed/web_pic_10.jpeg' },
 ];
 
 export default function Home() {
