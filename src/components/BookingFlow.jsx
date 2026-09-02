@@ -132,6 +132,7 @@ export default function BookingFlow({ onClose }) {
               <select value={selectedProduct} onChange={(e) => setSelectedProduct(e.target.value)} style={inputStyle}>
                 <option value="Acrylic" style={{ background: '#2D2838', color: 'white' }}>Acrylic</option>
                 <option value="Polygel" style={{ background: '#2D2838', color: 'white' }}>Polygel</option>
+                <option value="I don't mind" style={{ background: '#2D2838', color: 'white' }}>I don't mind</option>
               </select>
             </div>
 
