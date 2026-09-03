@@ -17,13 +17,13 @@ const NAIL_IMAGES = [
 
 const WORLDS = {
   'nails': {
-    title: 'Polygel Nails Subscription',
-    subtitle: 'Premium Polygel Extensions & Overlays',
+    title: 'Polygel & Acrylic Nails Subscription',
+    subtitle: 'Premium Polygel & Acrylic Extensions & Overlays',
     bg: '/leopard_print_light.jpg',
     color: '#5C5470',
     description: 'Immerse yourself in flawless, sculpted beauty. From minimalist overlays to extravagant extensions.',
     features: [
-      '2x fresh polygel sets or fills per month',
+      '2x fresh polygel or acrylic sets or fills per month',
       'Tier 1 nail art included',
       'Any fixes included',
       'Travel fees included (varies depending on area)'
