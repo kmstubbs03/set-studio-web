@@ -15,21 +15,6 @@ const NAIL_IMAGES = [
   '/gallery/nails/nail7.jpg'
 ];
 
-const LASH_IMAGES = [
-  '/gallery/lashes/lash1.jpg',
-  '/gallery/lashes/lash2.jpg',
-  '/gallery/lashes/lash3.jpg',
-  '/gallery/lashes/lash4.jpg',
-  '/gallery/lashes/lash5.jpg'
-];
-
-const SET_IMAGES = [];
-const maxLen = Math.max(NAIL_IMAGES.length, LASH_IMAGES.length);
-for (let i = 0; i < maxLen; i++) {
-  if (NAIL_IMAGES[i]) SET_IMAGES.push(NAIL_IMAGES[i]);
-  if (LASH_IMAGES[i]) SET_IMAGES.push(LASH_IMAGES[i]);
-}
-
 const WORLDS = {
   'nails': {
     title: 'Polygel Nails Subscription',
@@ -44,19 +29,6 @@ const WORLDS = {
       'Travel fees included (varies depending on area)'
     ],
     gallery: NAIL_IMAGES
-  },
-  'lashes': {
-    title: 'Lash Cluster Subscription',
-    subtitle: 'Premium Lash Clusters',
-    bg: '/leopard_stars.jpg',
-    color: '#FAF6F0',
-    description: 'Wake up ready. Perfect, lightweight lash clusters tailored to your exact eye shape.',
-    features: [
-      '2x fresh lash sets per month',
-      'Any fixes included',
-      'Travel fees included (varies depending on area)'
-    ],
-    gallery: LASH_IMAGES
   }
 };
 
