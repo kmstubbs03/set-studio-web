@@ -5,11 +5,11 @@ import Confetti from 'react-confetti';
 import CustomCalendar from './CustomCalendar';
 
 const PRICING = {
-  'Kraaifontein, Durbanville & Surrounds': 600,
-  'Table View, Blouberg & Surrounds': 800,
-  'Southern Suburbs & Surrounds': 900,
-  'CBD, Atlantic Seaboard & Surrounds': 1000,
-  'Other Area (Custom Travel Quote)': 600
+  'Kraaifontein, Durbanville & Surrounds': 500,
+  'Table View, Blouberg & Surrounds': 700,
+  'Southern Suburbs & Surrounds': 800,
+  'CBD, Atlantic Seaboard & Surrounds': 900,
+  'Other Area (Custom Travel Quote)': 500
 };
 
 
