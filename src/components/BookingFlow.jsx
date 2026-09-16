@@ -54,6 +54,7 @@ export default function BookingFlow({ onClose }) {
   const [travelFee, setTravelFee] = useState(null);
   const [distanceLoading, setDistanceLoading] = useState(false);
   const [distanceError, setDistanceError] = useState('');
+  const [selectedArea, setSelectedArea] = useState('');
   const [selectedPackage, setSelectedPackage] = useState('basic');
   const [selectedProduct, setSelectedProduct] = useState('Acrylic');
   const [selectedLength, setSelectedLength] = useState('Short');
@@ -80,7 +81,7 @@ export default function BookingFlow({ onClose }) {
       const res = await fetch('/api/distance', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ address })
+        body: JSON.stringify({ address: address + (selectedArea ? ', ' + selectedArea : '') + ', Cape Town' })
       });
       const data = await res.json();
       if (res.ok && data.travelFee !== undefined) {
@@ -105,24 +106,69 @@ export default function BookingFlow({ onClose }) {
         title: 'Location & Travel Fee',
         content: (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', textAlign: 'left', width: '100%' }}>
-            <p style={{ opacity: 0.8, fontSize: '0.9rem' }}>Enter your home address so we can calculate your travel fee.</p>
+            <p style={{ opacity: 0.8, fontSize: '0.9rem' }}>Enter your details so we can calculate your travel fee.</p>
+            
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              <label style={{ fontSize: '0.85rem', fontWeight: 'bold' }}>Home Address (Cape Town Only)</label>
-              <input 
-                type="text" 
-                placeholder="e.g. 15 Main Road, Sea Point" 
-                style={inputStyle} 
-                value={address} 
-                onChange={e => { setAddress(e.target.value); setDistanceError(''); }}
-                onBlur={handleAddressBlur}
-              />
+              <label style={{ fontSize: '0.85rem', fontWeight: 'bold' }}>Your Area / Suburb</label>
+              <select 
+                value={selectedArea}
+                onChange={(e) => setSelectedArea(e.target.value)}
+                style={{
+                  padding: '12px',
+                  borderRadius: '8px',
+                  border: '1px solid rgba(255,255,255,0.2)',
+                  background: 'rgba(255,255,255,0.1)',
+                  color: 'inherit',
+                  fontSize: '1rem',
+                  outline: 'none'
+                }}
+              >
+                <option value="" style={{ background: '#2D2838', color: 'white' }}>Select your area...</option>
+              <option key="Kraaifontein, Durbanville & Surrounds" value="Kraaifontein, Durbanville & Surrounds" style={{ background: '#2D2838', color: 'white' }}>Kraaifontein, Durbanville & Surrounds</option>
+              <option key="Table View, Blouberg & Surrounds" value="Table View, Blouberg & Surrounds" style={{ background: '#2D2838', color: 'white' }}>Table View, Blouberg & Surrounds</option>
+              <option key="Southern Suburbs & Surrounds" value="Southern Suburbs & Surrounds" style={{ background: '#2D2838', color: 'white' }}>Southern Suburbs & Surrounds</option>
+              <option key="CBD, Atlantic Seaboard & Surrounds" value="CBD, Atlantic Seaboard & Surrounds" style={{ background: '#2D2838', color: 'white' }}>CBD, Atlantic Seaboard & Surrounds</option>
+              <option key="Other Area" value="Other Area" style={{ background: '#2D2838', color: 'white' }}>Other Area</option>
+              </select>
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <label style={{ fontSize: '0.85rem', fontWeight: 'bold' }}>Home Address</label>
+              <div style={{ display: 'flex', gap: '8px', alignItems: 'stretch' }}>
+                <input 
+                  type="text" 
+                  placeholder="e.g. 15 Main Road" 
+                  style={{ ...inputStyle, flex: 1, margin: 0 }} 
+                  value={address} 
+                  onChange={e => { setAddress(e.target.value); setDistanceError(''); }}
+                  onKeyDown={e => { if (e.key === 'Enter') handleAddressBlur(); }}
+                  onBlur={handleAddressBlur}
+                />
+                <button 
+                  onClick={handleAddressBlur}
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.2)',
+                    border: '1px solid rgba(255,255,255,0.1)',
+                    borderRadius: '8px',
+                    padding: '0 15px',
+                    color: 'white',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                  title="Calculate Travel Fee"
+                >
+                  <ChevronRight size={20} />
+                </button>
+              </div>
               {distanceLoading && <div style={{ fontSize: '0.8rem', opacity: 0.7 }}>Calculating travel fee...</div>}
               {distanceError && <div style={{ fontSize: '0.8rem', color: '#ff8888' }}>{distanceError}</div>}
             </div>
             
             <div style={{ marginTop: '10px', background: 'rgba(255,255,255,0.1)', padding: '15px', borderRadius: '12px' }}>
               <div style={{ fontSize: '0.85rem', opacity: 0.8 }}>Travel Fee (R12/km round trip)</div>
-              <div style={{ fontSize: '2rem', fontWeight: 'bold' }}>{travelFee !== null ? `R${travelFee}` : '—'}</div>
+              <div style={{ fontSize: '2rem', fontWeight: 'bold' }}>{travelFee !== null ? `R${travelFee}` : '\u2014'}</div>
               <div style={{ fontSize: '0.75rem', opacity: 0.6, marginTop: '5px' }}>Package add-ons selected next.</div>
             </div>
           </div>
@@ -270,7 +316,7 @@ export default function BookingFlow({ onClose }) {
   const steps = generateSteps();
 
   const handleNext = () => {
-    if (step === 0 && (!address || travelFee === null)) return alert("Please enter your address and wait for the travel fee to calculate.");
+    if (step === 0 && (!address || !selectedArea || travelFee === null)) return alert("Please select your area, enter your address, and wait for the travel fee to calculate.");
     if (step === 3 && !selectedDate) return alert("Please select a date.");
     if (step === 4) {
       if (!fullName || !whatsapp) return alert("Please fill in your details.");
