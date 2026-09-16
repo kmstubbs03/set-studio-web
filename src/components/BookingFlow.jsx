@@ -4,14 +4,6 @@ import { X, ChevronLeft, ChevronRight, CheckCircle2 } from 'lucide-react';
 import Confetti from 'react-confetti';
 import CustomCalendar from './CustomCalendar';
 
-const PRICING = {
-  'Kraaifontein, Durbanville & Surrounds': 500,
-  'Table View, Blouberg & Surrounds': 700,
-  'Southern Suburbs & Surrounds': 800,
-  'CBD, Atlantic Seaboard & Surrounds': 900,
-  'Other Area (Custom Travel Quote)': 500
-};
-
 const SUBSCRIPTION_PACKAGES = {
   'basic': {
     id: 'basic',
@@ -56,11 +48,12 @@ const ART_UPGRADES = {
   'Tier 4': { price: 300, name: 'Tier 4' }
 };
 
-const AREAS = Object.keys(PRICING);
 
 export default function BookingFlow({ onClose }) {
   const [step, setStep] = useState(0);
-  const [selectedArea, setSelectedArea] = useState(AREAS[0]);
+  const [travelFee, setTravelFee] = useState(null);
+  const [distanceLoading, setDistanceLoading] = useState(false);
+  const [distanceError, setDistanceError] = useState('');
   const [selectedPackage, setSelectedPackage] = useState('basic');
   const [selectedProduct, setSelectedProduct] = useState('Acrylic');
   const [selectedLength, setSelectedLength] = useState('Short');
@@ -78,47 +71,59 @@ export default function BookingFlow({ onClose }) {
   const [selectedTimes, setSelectedTimes] = useState([]);
 
   const [termsAccepted, setTermsAccepted] = useState(false);
+
+  const handleAddressBlur = async () => {
+    if (!address || address.length < 5) return;
+    setDistanceLoading(true);
+    setDistanceError('');
+    try {
+      const res = await fetch('/api/distance', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ address })
+      });
+      const data = await res.json();
+      if (res.ok && data.travelFee !== undefined) {
+        setTravelFee(data.travelFee);
+      } else {
+        setDistanceError(data.error || 'Could not find address. Try just your street and suburb.');
+        setTravelFee(null);
+      }
+    } catch (e) {
+      setDistanceError('Something went wrong. Please try again.');
+      setTravelFee(null);
+    }
+    setDistanceLoading(false);
+  };
   
-  let currentPrice = PRICING[selectedArea] + SUBSCRIPTION_PACKAGES[selectedPackage].price;
+  let currentPrice = (travelFee || 0) + SUBSCRIPTION_PACKAGES[selectedPackage].price;
 
   const generateSteps = () => {
     return [
       {
         id: 'location',
-        title: 'Location & Pricing',
+        title: 'Location & Travel Fee',
         content: (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', textAlign: 'left', width: '100%' }}>
-            <p style={{ opacity: 0.8, fontSize: '0.9rem' }}>Select your area to see the monthly subscription cost.</p>
+            <p style={{ opacity: 0.8, fontSize: '0.9rem' }}>Enter your home address so we can calculate your travel fee.</p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              <label style={{ fontSize: '0.85rem', fontWeight: 'bold' }}>Your Area</label>
-              <select 
-                value={selectedArea}
-                onChange={(e) => setSelectedArea(e.target.value)}
-                style={{
-                  padding: '12px',
-                  borderRadius: '8px',
-                  border: '1px solid rgba(255,255,255,0.2)',
-                  background: 'rgba(255,255,255,0.1)',
-                  color: 'inherit',
-                  fontSize: '1rem',
-                  outline: 'none'
-                }}
-              >
-                {AREAS.map(area => (
-                  <option key={area} value={area} style={{ background: '#2D2838', color: 'white' }}>{area}</option>
-                ))}
-              </select>
+              <label style={{ fontSize: '0.85rem', fontWeight: 'bold' }}>Home Address (Cape Town Only)</label>
+              <input 
+                type="text" 
+                placeholder="e.g. 15 Main Road, Sea Point" 
+                style={inputStyle} 
+                value={address} 
+                onChange={e => { setAddress(e.target.value); setDistanceError(''); }}
+                onBlur={handleAddressBlur}
+              />
+              {distanceLoading && <div style={{ fontSize: '0.8rem', opacity: 0.7 }}>Calculating travel fee...</div>}
+              {distanceError && <div style={{ fontSize: '0.8rem', color: '#ff8888' }}>{distanceError}</div>}
             </div>
             
             <div style={{ marginTop: '10px', background: 'rgba(255,255,255,0.1)', padding: '15px', borderRadius: '12px' }}>
-              <div style={{ fontSize: '0.85rem', opacity: 0.8 }}>Base Area Fee (Travel Included)</div>
-              <div style={{ fontSize: '2rem', fontWeight: 'bold' }}>R{PRICING[selectedArea]}</div>
-              <div style={{ fontSize: '0.75rem', opacity: 0.6, marginTop: '5px' }}>Includes 1x visit per month. Package selected next.</div>
-            </div>
-
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '10px' }}>
-              <label style={{ fontSize: '0.85rem', fontWeight: 'bold' }}>Home Address</label>
-              <input type="text" placeholder="e.g. 123 Main St, Complex Name, Unit 4" style={inputStyle} value={address} onChange={e => setAddress(e.target.value)} />
+              <div style={{ fontSize: '0.85rem', opacity: 0.8 }}>Travel Fee (R12/km round trip)</div>
+              <div style={{ fontSize: '2rem', fontWeight: 'bold' }}>{travelFee !== null ? `R${travelFee}` : '—'}</div>
+              <div style={{ fontSize: '0.75rem', opacity: 0.6, marginTop: '5px' }}>Package add-ons selected next.</div>
             </div>
           </div>
         )
@@ -265,30 +270,48 @@ export default function BookingFlow({ onClose }) {
   const steps = generateSteps();
 
   const handleNext = () => {
-    if (step === 0 && !address) return alert("Please provide your home address.");
+    if (step === 0 && (!address || travelFee === null)) return alert("Please enter your address and wait for the travel fee to calculate.");
     if (step === 3 && !selectedDate) return alert("Please select a date.");
     if (step === 4) {
       if (!fullName || !whatsapp) return alert("Please fill in your details.");
       if (!termsAccepted) return alert("You must accept the terms & conditions.");
       
-      let message = `💅 *NEW SUBSCRIPTION BOOKING!* 💅\n\n`;
-      message += `👤 *Name:* ${fullName}\n`;
-      message += `📱 *WhatsApp:* ${whatsapp}\n`;
-      message += `📍 *Address:* ${address}\n`;
-      message += `🚗 *Area:* ${selectedArea}\n`;
-      message += `📦 *Package:* ${SUBSCRIPTION_PACKAGES[selectedPackage].name}\n`;
-      message += `💰 *Monthly Total:* R${currentPrice}\n\n`;
+      let message = `\u2728 *NEW SUBSCRIPTION BOOKING!* \u2728\n\n`;
+      message += `\uD83D\uDC8B *Name:* ${fullName}\n`;
+      message += `\uD83D\uDC8B *WhatsApp:* ${whatsapp}\n`;
+      message += `\uD83D\uDECB\uFE0F *Address:* ${address}\n`;
+      message += `\uD83D\uDC06 *Travel Fee:* R${travelFee}\n`;
+      message += `\uD83D\uDC9C *Package:* ${SUBSCRIPTION_PACKAGES[selectedPackage].name}\n`;
+      message += `\uD83D\uDC9C *Monthly Total:* R${currentPrice}\n\n`;
       
-      message += `✨ *NAIL PREFERENCES:*\n`;
-      message += `🫧 - Product: ${selectedProduct}\n`;
-      message += `📏 - Length: ${selectedLength}\n`;
-      message += `🎨 - Art Tier: ${selectedArt}\n\n`;
+      message += `\uD83D\uDC85 *NAIL PREFERENCES:*\n`;
+      message += `\uD83E\uDDDA\uD83C\uDFFC - Product: ${selectedProduct}\n`;
+      message += `\uD83E\uDDDA\uD83C\uDFFC - Length: ${selectedLength}\n`;
+      message += `\uD83E\uDDDA\uD83C\uDFFC - Art Tier: ${selectedArt}\n\n`;
 
-      message += `📅 *Preferred Date:* ${selectedDate.toDateString()}\n`;
-      message += `⏰ *Preferred Times:* ${selectedTimes.length > 0 ? selectedTimes.join(', ') : 'Any time'}\n\n`;
+      message += `\u2728 *Preferred Date:* ${selectedDate.toDateString()}\n`;
+      message += `\u2728 *Preferred Times:* ${selectedTimes.length > 0 ? selectedTimes.join(', ') : 'Any time'}\n\n`;
 
-      message += `✅ I agree to the T&Cs. I will send my reference photo shortly!`;
+      message += `\uD83D\uDC9C I agree to the T&Cs. I will send my reference photo shortly!`;
+
+      // Send data to Google Sheets & Trigger Email via Apps Script
+      const formData = {
+        fullName,
+        whatsapp,
+        address,
+        packageDetails: SUBSCRIPTION_PACKAGES[selectedPackage].name,
+        date: selectedDate ? selectedDate.toDateString() : 'Unspecified'
+      };
       
+      fetch('https://script.google.com/macros/s/AKfycbxG1JD2KbEeMHPxF2rsW9j4EiXzGUkHXHEhQntl6dAlPXably_iy5CkIaqyVsE7OQs/exec', {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+          'Content-Type': 'text/plain',
+        },
+        body: JSON.stringify(formData)
+      }).catch(err => console.error('Error saving to sheet:', err));
+
       window.open("https://wa.me/27683595032?text=" + encodeURIComponent(message), "_blank");
       onClose();
       return;
