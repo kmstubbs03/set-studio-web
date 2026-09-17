@@ -23,7 +23,7 @@ const WORLDS = {
     color: '#5C5470',
     description: 'Immerse yourself in flawless, sculpted beauty. From minimalist overlays to extravagant extensions.',
     features: [
-      '2x fresh polygel or acrylic sets or fills per month',
+      '1x fresh polygel or acrylic set or fill per month',
       'Tier 1 nail art included',
       'Any fixes included',
       'Travel fees included (varies depending on area)'

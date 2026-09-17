@@ -1,368 +1,115 @@
-import { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, ChevronLeft, ChevronRight, CheckCircle2 } from 'lucide-react';
-import Confetti from 'react-confetti';
-import CustomCalendar from './CustomCalendar';
-
-const SUBSCRIPTION_PACKAGES = {
-  'basic': {
-    id: 'basic',
-    name: 'The Basic Set',
-    description: 'Includes Tier 1 Art & up to Medium Length',
-    price: 0
-  },
-  'standard': {
-    id: 'standard',
-    name: 'The Standard Set',
-    description: 'Includes up to Tier 2 Art & up to Medium Long Length',
-    price: 150
-  },
-  'extra': {
-    id: 'extra',
-    name: 'The Extra Set',
-    description: 'Includes up to Tier 3 Art & up to Long Length',
-    price: 350
-  },
-  'ultimate': {
-    id: 'ultimate',
-    name: 'The Ultimate Set',
-    description: 'Includes up to Tier 4 Art & Any Length (XXL)',
-    price: 550
-  }
-};
-
-const LENGTH_UPGRADES = {
-  'Short': { price: 0, name: 'Short' },
-  'Medium': { price: 0, name: 'Medium' },
-  'Medium Long': { price: 50, name: 'Medium Long' },
-  'Long': { price: 100, name: 'Long' },
-  'XL': { price: 150, name: 'XL' },
-  'XXL': { price: 200, name: 'XXL' }
-};
-
-const ART_UPGRADES = {
-  'No Art': { price: 0, name: 'No Art' },
-  'Tier 1': { price: 0, name: 'Tier 1' },
-  'Tier 2': { price: 100, name: 'Tier 2' },
-  'Tier 3': { price: 200, name: 'Tier 3' },
-  'Tier 4': { price: 300, name: 'Tier 4' }
-};
-
+import { X, ChevronLeft, ChevronRight } from 'lucide-react';
+import useBookingStore from '../store/useBookingStore';
+import LocationStep from './booking-steps/LocationStep';
+import PreferencesStep from './booking-steps/PreferencesStep';
+import PackageStep, { SUBSCRIPTION_PACKAGES } from './booking-steps/PackageStep';
+import DateStep from './booking-steps/DateStep';
+import DetailsStep from './booking-steps/DetailsStep';
 
 export default function BookingFlow({ onClose }) {
-  const [step, setStep] = useState(0);
-  const [travelFee, setTravelFee] = useState(null);
-  const [distanceLoading, setDistanceLoading] = useState(false);
-  const [distanceError, setDistanceError] = useState('');
-  const [selectedArea, setSelectedArea] = useState('');
-  const [selectedPackage, setSelectedPackage] = useState('basic');
-  const [selectedProduct, setSelectedProduct] = useState('Acrylic');
-  const [selectedLength, setSelectedLength] = useState('Short');
-  const [selectedArt, setSelectedArt] = useState('No Art');
+  const store = useBookingStore();
   const [showLengthModal, setShowLengthModal] = useState(false);
   const [showArtModal, setShowArtModal] = useState(false);
-  
-  // User Details
-  const [fullName, setFullName] = useState('');
-  const [whatsapp, setWhatsapp] = useState('');
-  const [address, setAddress] = useState('');
-  
-  // Calendar states
-  const [selectedDate, setSelectedDate] = useState(null);
-  const [selectedTimes, setSelectedTimes] = useState([]);
 
-  const [termsAccepted, setTermsAccepted] = useState(false);
+  // Unmount logic - reset store when closed
+  useEffect(() => {
+    return () => store.resetForm();
+  }, []);
 
-  const handleAddressBlur = async () => {
-    if (!address || address.length < 5) return;
-    setDistanceLoading(true);
-    setDistanceError('');
-    try {
-      const res = await fetch('/api/distance', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ address: address + (selectedArea ? ', ' + selectedArea : '') + ', Cape Town' })
-      });
-      const data = await res.json();
-      if (res.ok && data.travelFee !== undefined) {
-        setTravelFee(data.travelFee);
-      } else {
-        setDistanceError(data.error || 'Could not find address. Try just your street and suburb.');
-        setTravelFee(null);
-      }
-    } catch (e) {
-      setDistanceError('Something went wrong. Please try again.');
-      setTravelFee(null);
+  const currentPrice = 250 + (store.travelFee || 0) + SUBSCRIPTION_PACKAGES[store.selectedPackage].price;
+
+  const steps = [
+    {
+      id: 'location',
+      title: 'Location & Travel Fee',
+      content: <LocationStep isSubscription={true} />
+    },
+    {
+      id: 'upgrades',
+      title: 'Appointment Preferences',
+      content: (
+        <PreferencesStep 
+          isSubscription={true} 
+          onShowLengthModal={() => setShowLengthModal(true)} 
+          onShowArtModal={() => setShowArtModal(true)} 
+        />
+      )
+    },
+    {
+      id: 'package',
+      title: 'Choose Package',
+      content: <PackageStep currentPrice={currentPrice} />
+    },
+    {
+      id: 'date',
+      title: 'Choose Your Day',
+      content: <DateStep isSubscription={true} />
+    },
+    {
+      id: 'details',
+      title: 'Your Details',
+      content: <DetailsStep isSubscription={true} priceDisplay={`R${currentPrice}`} />
     }
-    setDistanceLoading(false);
-  };
-  
-  let currentPrice = (travelFee || 0) + SUBSCRIPTION_PACKAGES[selectedPackage].price;
-
-  const generateSteps = () => {
-    return [
-      {
-        id: 'location',
-        title: 'Location & Travel Fee',
-        content: (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', textAlign: 'left', width: '100%' }}>
-            <p style={{ opacity: 0.8, fontSize: '0.9rem' }}>Enter your details so we can calculate your travel fee.</p>
-            
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              <label style={{ fontSize: '0.85rem', fontWeight: 'bold' }}>Your Area / Suburb</label>
-              <select 
-                value={selectedArea}
-                onChange={(e) => setSelectedArea(e.target.value)}
-                style={{
-                  padding: '12px',
-                  borderRadius: '8px',
-                  border: '1px solid rgba(255,255,255,0.2)',
-                  background: 'rgba(255,255,255,0.1)',
-                  color: 'inherit',
-                  fontSize: '1rem',
-                  outline: 'none'
-                }}
-              >
-                <option value="" style={{ background: '#2D2838', color: 'white' }}>Select your area...</option>
-              <option key="Kraaifontein, Durbanville & Surrounds" value="Kraaifontein, Durbanville & Surrounds" style={{ background: '#2D2838', color: 'white' }}>Kraaifontein, Durbanville & Surrounds</option>
-              <option key="Table View, Blouberg & Surrounds" value="Table View, Blouberg & Surrounds" style={{ background: '#2D2838', color: 'white' }}>Table View, Blouberg & Surrounds</option>
-              <option key="Southern Suburbs & Surrounds" value="Southern Suburbs & Surrounds" style={{ background: '#2D2838', color: 'white' }}>Southern Suburbs & Surrounds</option>
-              <option key="CBD, Atlantic Seaboard & Surrounds" value="CBD, Atlantic Seaboard & Surrounds" style={{ background: '#2D2838', color: 'white' }}>CBD, Atlantic Seaboard & Surrounds</option>
-              <option key="Other Area" value="Other Area" style={{ background: '#2D2838', color: 'white' }}>Other Area</option>
-              </select>
-            </div>
-
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              <label style={{ fontSize: '0.85rem', fontWeight: 'bold' }}>Home Address</label>
-              <div style={{ display: 'flex', gap: '8px', alignItems: 'stretch' }}>
-                <input 
-                  type="text" 
-                  placeholder="e.g. 15 Main Road" 
-                  style={{ ...inputStyle, flex: 1, margin: 0 }} 
-                  value={address} 
-                  onChange={e => { setAddress(e.target.value); setDistanceError(''); }}
-                  onKeyDown={e => { if (e.key === 'Enter') handleAddressBlur(); }}
-                  onBlur={handleAddressBlur}
-                />
-                <button 
-                  onClick={handleAddressBlur}
-                  style={{
-                    background: 'rgba(255, 255, 255, 0.2)',
-                    border: '1px solid rgba(255,255,255,0.1)',
-                    borderRadius: '8px',
-                    padding: '0 15px',
-                    color: 'white',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}
-                  title="Calculate Travel Fee"
-                >
-                  <ChevronRight size={20} />
-                </button>
-              </div>
-              {distanceLoading && <div style={{ fontSize: '0.8rem', opacity: 0.7 }}>Calculating travel fee...</div>}
-              {distanceError && <div style={{ fontSize: '0.8rem', color: '#ff8888' }}>{distanceError}</div>}
-            </div>
-            
-            <div style={{ marginTop: '10px', background: 'rgba(255,255,255,0.1)', padding: '15px', borderRadius: '12px' }}>
-              <div style={{ fontSize: '0.85rem', opacity: 0.8 }}>Travel Fee (R12/km round trip)</div>
-              <div style={{ fontSize: '2rem', fontWeight: 'bold' }}>{travelFee !== null ? `R${travelFee}` : '\u2014'}</div>
-              <div style={{ fontSize: '0.75rem', opacity: 0.6, marginTop: '5px' }}>Package add-ons selected next.</div>
-            </div>
-          </div>
-        )
-      },
-      {
-        id: 'upgrades',
-        title: 'Appointment Preferences',
-        content: (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', textAlign: 'left', width: '100%' }}>
-            <p style={{ opacity: 0.8, fontSize: '0.85rem' }}>
-              Let me know what length and art you're looking for! 
-              Note: The basic subscription covers Tier 1 Art and up to Medium Length. Upgrades are settled on the day of your appointment, unless covered by a higher package.
-            </p>
-            
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              <label style={{ fontSize: '0.85rem', fontWeight: 'bold' }}>
-                Product Preference
-              </label>
-              <select value={selectedProduct} onChange={(e) => setSelectedProduct(e.target.value)} style={inputStyle}>
-                <option value="Acrylic" style={{ background: '#2D2838', color: 'white' }}>Acrylic</option>
-                <option value="Polygel" style={{ background: '#2D2838', color: 'white' }}>Polygel</option>
-                <option value="I don't mind" style={{ background: '#2D2838', color: 'white' }}>I don't mind</option>
-              </select>
-            </div>
-
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              <label style={{ fontSize: '0.85rem', fontWeight: 'bold' }}>
-                Preferred Length{' '}
-                <span 
-                  onClick={() => setShowLengthModal(true)}
-                  style={{ color: 'var(--color-dusty-lilac)', cursor: 'pointer', textDecoration: 'underline', fontWeight: 'bold' }}
-                >
-                  (see reference photo)
-                </span>
-              </label>
-              <select value={selectedLength} onChange={(e) => setSelectedLength(e.target.value)} style={inputStyle}>
-                {Object.entries(LENGTH_UPGRADES).map(([key, val]) => (
-                  <option key={key} value={key} style={{ background: '#2D2838', color: 'white' }}>{val.name}</option>
-                ))}
-              </select>
-            </div>
-
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              <label style={{ fontSize: '0.85rem', fontWeight: 'bold' }}>
-                Preferred Art Tier{' '}
-                <span 
-                  onClick={() => setShowArtModal(true)}
-                  style={{ color: 'var(--color-dusty-lilac)', cursor: 'pointer', textDecoration: 'underline', fontWeight: 'bold' }}
-                >
-                  (see reference photo)
-                </span>
-              </label>
-              <select value={selectedArt} onChange={(e) => setSelectedArt(e.target.value)} style={inputStyle}>
-                {Object.entries(ART_UPGRADES).map(([key, val]) => (
-                  <option key={key} value={key} style={{ background: '#2D2838', color: 'white' }}>{val.name}</option>
-                ))}
-              </select>
-            </div>
-
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '5px', background: 'rgba(255,255,255,0.1)', padding: '12px', borderRadius: '8px' }}>
-              <strong style={{ fontSize: '0.85rem', color: 'var(--color-dusty-lilac)' }}>Reference Photos Required!</strong>
-              <p style={{ fontSize: '0.75rem', opacity: 0.9, margin: 0, lineHeight: '1.4' }}>
-                You will need to send a reference photo of your desired set via WhatsApp so I can prep accordingly!
-              </p>
-            </div>
-          </div>
-        )
-      },
-      {
-        id: 'package',
-        title: 'Choose Package',
-        content: (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '15px', textAlign: 'left', width: '100%' }}>
-            <p style={{ opacity: 0.8, fontSize: '0.85rem' }}>Select your monthly subscription tier.</p>
-            {Object.values(SUBSCRIPTION_PACKAGES).map(pkg => (
-              <div key={pkg.id} onClick={() => setSelectedPackage(pkg.id)} style={radioContainerStyle(selectedPackage === pkg.id)}>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                  <span style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>{pkg.name}</span>
-                  <span style={{ fontSize: '0.8rem', opacity: 0.8 }}>{pkg.description}</span>
-                </div>
-                <div style={{ fontWeight: 'bold' }}>{pkg.price === 0 ? 'Base' : '+R' + pkg.price}</div>
-              </div>
-            ))}
-            
-            <div style={{ marginTop: '5px', background: 'rgba(255,255,255,0.05)', padding: '12px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)' }}>
-              <div style={{ fontSize: '0.75rem', opacity: 0.8, marginBottom: '4px' }}>Monthly Total</div>
-              <div style={{ fontSize: '1.1rem', fontWeight: 'bold', color: 'var(--color-dusty-lilac)' }}>R{currentPrice}</div>
-            </div>
-          </div>
-        )
-      },
-      {
-        id: 'date',
-        title: 'Choose Your Day',
-        content: (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', textAlign: 'left', width: '100%' }}>
-            <p style={{ opacity: 0.8, fontSize: '0.85rem', lineHeight: '1.4' }}>
-              Select your preferred day of the month for your monthly subscription appointment.
-            </p>
-            <CustomCalendar 
-              selectedDate={selectedDate} 
-              setSelectedDate={setSelectedDate} 
-              selectedTimes={selectedTimes}
-              setSelectedTimes={setSelectedTimes}
-              maxSelectableDates={1}
-            />
-          </div>
-        )
-      },
-      {
-        id: 'details',
-        title: 'Your Details',
-        content: (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '15px', textAlign: 'left', width: '100%' }}>
-            <div style={{ background: 'rgba(255,255,255,0.1)', padding: '15px', borderRadius: '12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <div>
-                <div style={{ fontSize: '0.85rem', opacity: 0.8 }}>Monthly Total</div>
-                <div style={{ fontSize: '0.7rem', opacity: 0.6, marginTop: '2px' }}>Travel Included</div>
-              </div>
-              <div style={{ fontSize: '1.3rem', fontWeight: 'bold', color: 'var(--color-dusty-lilac)' }}>R{currentPrice}</div>
-            </div>
-            
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              <label style={{ fontSize: '0.85rem', fontWeight: 'bold' }}>Full Name</label>
-              <input type="text" placeholder="e.g. Kayla Stubbs" style={inputStyle} value={fullName} onChange={e => setFullName(e.target.value)} />
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              <label style={{ fontSize: '0.85rem', fontWeight: 'bold' }}>WhatsApp Number</label>
-              <input type="tel" placeholder="e.g. 082 123 4567" style={inputStyle} value={whatsapp} onChange={e => setWhatsapp(e.target.value)} />
-            </div>
-
-            <label style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', marginTop: '10px', cursor: 'pointer' }}>
-              <input type="checkbox" checked={termsAccepted} onChange={e => setTermsAccepted(e.target.checked)} style={{ marginTop: '4px' }} />
-              <span style={{ fontSize: '0.8rem', opacity: 0.9, lineHeight: '1.4' }}>
-                I agree to the T&Cs. Note: 1st month subscription is payable upfront to secure your spot. Thereafter, you will be billed on the 1st of every month. Travel fee is included in the base price.
-              </span>
-            </label>
-          </div>
-        )
-      }
-    ];
-  };
-
-  const steps = generateSteps();
+  ];
 
   const handleNext = () => {
-    if (step === 0 && (!address || !selectedArea || travelFee === null)) return alert("Please select your area, enter your address, and wait for the travel fee to calculate.");
-    if (step === 3 && !selectedDate) return alert("Please select a date.");
-    if (step === 4) {
-      if (!fullName || !whatsapp) return alert("Please fill in your details.");
-      if (!termsAccepted) return alert("You must accept the terms & conditions.");
+    if (store.step === 0 && (!store.address || !store.selectedArea || store.travelFee === null)) {
+      return alert("Please select your area, enter your address, and wait for the travel fee to calculate.");
+    }
+    if (store.step === 3 && !store.selectedDate) return alert("Please select a date.");
+    
+    if (store.step === steps.length - 1) {
+      if (!store.fullName || !store.whatsapp) return alert("Please fill in your details.");
+      if (!store.termsAccepted) return alert("You must accept the terms & conditions.");
+      if (store.selectedArt !== 'No Art' && !store.referencePhotoUrl) {
+        return alert("Please upload a reference photo for your art tier.");
+      }
       
-      let message = `\u2728 *NEW SUBSCRIPTION BOOKING!* \u2728\n\n`;
-      message += `\uD83D\uDC8B *Name:* ${fullName}\n`;
-      message += `\uD83D\uDC8B *WhatsApp:* ${whatsapp}\n`;
-      message += `\uD83D\uDECB\uFE0F *Address:* ${address}\n`;
-      message += `\uD83D\uDC06 *Travel Fee:* R${travelFee}\n`;
-      message += `\uD83D\uDC9C *Package:* ${SUBSCRIPTION_PACKAGES[selectedPackage].name}\n`;
-      message += `\uD83D\uDC9C *Monthly Total:* R${currentPrice}\n\n`;
+      let message = `✨ *NEW SUBSCRIPTION BOOKING!* ✨\n\n`;
+      message += `*Name:* ${store.fullName}\n`;
+      message += `*WhatsApp:* ${store.whatsapp}\n`;
+      message += `*Address:* ${store.address}\n`;
+      message += `*Travel Fee:* R${store.travelFee}\n`;
+      message += `*Package:* ${SUBSCRIPTION_PACKAGES[store.selectedPackage].name}\n`;
+      message += `💋 *Monthly Total:* R${currentPrice}\n\n`;
       
-      message += `\uD83D\uDC85 *NAIL PREFERENCES:*\n`;
-      message += `\uD83E\uDDDA\uD83C\uDFFC - Product: ${selectedProduct}\n`;
-      message += `\uD83E\uDDDA\uD83C\uDFFC - Length: ${selectedLength}\n`;
-      message += `\uD83E\uDDDA\uD83C\uDFFC - Art Tier: ${selectedArt}\n\n`;
+      message += `💅 *NAIL PREFERENCES:*\n`;
+      message += `- Product: ${store.selectedProduct}\n`;
+      message += `- Length: ${store.selectedLength}\n`;
+      message += `- Art Tier: ${store.selectedArt}\n\n`;
 
-      message += `\u2728 *Preferred Date:* ${selectedDate.toDateString()}\n`;
-      message += `\u2728 *Preferred Times:* ${selectedTimes.length > 0 ? selectedTimes.join(', ') : 'Any time'}\n\n`;
+      message += `*Preferred Date:* ${store.selectedDate.toDateString()}\n`;
+      message += `*Preferred Times:* ${store.selectedTimes.length > 0 ? store.selectedTimes.join(', ') : 'Any time'}\n\n`;
 
-      message += `\uD83D\uDC9C I agree to the T&Cs. I will send my reference photo shortly!`;
+      if (store.referencePhotoUrl) {
+        message += `*Reference Photo:* ${store.referencePhotoUrl}\n\n`;
+      }
 
-      // Send data to Google Sheets & Trigger Email via Apps Script
+      message += `💜 I agree to the T&Cs. See my reference photo above!`;
+
       const formData = {
-        fullName,
-        whatsapp,
-        address,
-        packageDetails: SUBSCRIPTION_PACKAGES[selectedPackage].name,
-        date: selectedDate ? selectedDate.toDateString() : 'Unspecified'
+        fullName: store.fullName,
+        whatsapp: store.whatsapp,
+        address: store.address,
+        packageDetails: SUBSCRIPTION_PACKAGES[store.selectedPackage].name,
+        date: store.selectedDate ? store.selectedDate.toDateString() : 'Unspecified',
+        referencePhotoUrl: store.referencePhotoUrl || ''
       };
       
-      fetch('https://script.google.com/macros/s/AKfycbxG1JD2KbEeMHPxF2rsW9j4EiXzGUkHXHEhQntl6dAlPXably_iy5CkIaqyVsE7OQs/exec', {
+      fetch('/api/book', {
         method: 'POST',
-        mode: 'no-cors',
-        headers: {
-          'Content-Type': 'text/plain',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
-      }).catch(err => console.error('Error saving to sheet:', err));
+      }).catch(err => console.error('Error submitting booking:', err));
 
       window.open("https://wa.me/27683595032?text=" + encodeURIComponent(message), "_blank");
       onClose();
       return;
     }
-    setStep(s => Math.min(steps.length - 1, s + 1));
+    
+    store.setStep(Math.min(steps.length - 1, store.step + 1));
   };
 
   return (
@@ -387,7 +134,6 @@ export default function BookingFlow({ onClose }) {
           padding: '20px'
         }}
       >
-        {/* Dark Frosted Glass Overlay */}
         <div style={{
           position: 'absolute',
           top: 0, left: 0, right: 0, bottom: 0,
@@ -410,7 +156,7 @@ export default function BookingFlow({ onClose }) {
         </button>
 
         <motion.div
-          key={step}
+          key={store.step}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
@@ -433,20 +179,20 @@ export default function BookingFlow({ onClose }) {
           }}
         >
           <div style={{ flexShrink: 0, fontSize: '0.8rem', opacity: 0.6, textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '10px', color: 'var(--color-dusty-lilac)' }}>
-            Step {step + 1} of {steps.length}
+            Step {store.step + 1} of {steps.length}
           </div>
           <h2 style={{ margin: '0 0 20px 0', fontSize: '1.8rem', fontFamily: 'var(--font-heading)', color: 'var(--color-dusty-lilac)' }}>
-            {steps[step].title}
+            {steps[store.step].title}
           </h2>
 
           <div style={{ width: '100%', boxSizing: 'border-box', minHeight: '300px', flexShrink: 0 }}>
-            {steps[step].content}
+            {steps[store.step].content}
           </div>
 
           <div style={{ flexShrink: 0, display: 'flex', justifyContent: 'space-between', width: '100%', boxSizing: 'border-box', marginTop: '30px', borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '20px' }}>
             <button 
-              onClick={() => setStep(s => Math.max(0, s - 1))}
-              style={{ ...navBtnStyle, opacity: step === 0 ? 0 : 1, pointerEvents: step === 0 ? 'none' : 'auto' }}
+              onClick={() => store.setStep(Math.max(0, store.step - 1))}
+              style={{ ...navBtnStyle, opacity: store.step === 0 ? 0 : 1, pointerEvents: store.step === 0 ? 'none' : 'auto' }}
             >
               <ChevronLeft size={18} /> Back
             </button>
@@ -454,7 +200,7 @@ export default function BookingFlow({ onClose }) {
               onClick={handleNext}
               style={{ ...navBtnStyle, background: 'var(--color-dusty-lilac)', color: 'white' }}
             >
-              {step === steps.length - 1 ? 'Subscribe Now' : 'Next'} <ChevronRight size={18} />
+              {store.step === steps.length - 1 ? 'Subscribe Now' : 'Next'} <ChevronRight size={18} />
             </button>
           </div>
         </motion.div>
@@ -489,30 +235,6 @@ export default function BookingFlow({ onClose }) {
     </AnimatePresence>
   );
 }
-
-const inputStyle = {
-  width: '100%', boxSizing: 'border-box',
-  padding: '12px 15px',
-  borderRadius: '8px',
-  border: '1px solid rgba(0,0,0,0.1)',
-  background: 'rgba(255,255,255,0.5)',
-  color: 'inherit',
-  fontSize: '1rem',
-  outline: 'none',
-  fontFamily: 'inherit'
-};
-
-const radioContainerStyle = (selected) => ({
-  display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-  padding: '15px',
-  borderRadius: '12px',
-  border: selected ? '2px solid var(--color-dusty-lilac)' : '2px solid rgba(0,0,0,0.1)',
-  background: selected ? 'rgba(255,255,255,0.5)' : 'transparent',
-  cursor: 'pointer',
-  transition: 'all 0.2s ease'
-});
 
 const navBtnStyle = {
   display: 'flex',
