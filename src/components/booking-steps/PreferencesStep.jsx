@@ -149,17 +149,36 @@ export default function PreferencesStep({
         <p style={{ fontSize: '0.75rem', opacity: 0.9, margin: 0, lineHeight: '1.4' }}>
           Please upload a photo of the set you want so I can prepare your price and supplies!
         </p>
-        <input 
-          type="file" 
-          accept=".png, .jpg, .jpeg, .webp, .heic, image/*" 
-          onChange={handlePhotoUpload} 
-          disabled={isUploadingPhoto}
-          style={{ ...inputStyle, padding: '8px', fontSize: '0.85rem' }} 
-        />
-        {isUploadingPhoto && <span style={{ fontSize: '0.8rem', opacity: 0.8 }}>Uploading photo...</span>}
-        {photoUploadError && <span style={{ fontSize: '0.8rem', color: '#ff8888' }}>{photoUploadError}</span>}
+        
+        <label style={{ 
+          ...inputStyle, 
+          padding: '12px', 
+          fontSize: '0.9rem', 
+          cursor: 'pointer', 
+          textAlign: 'center', 
+          background: 'var(--color-dusty-lilac)', 
+          color: 'white', 
+          border: 'none',
+          fontWeight: 'bold',
+          marginTop: '8px'
+        }}>
+          {isUploadingPhoto ? 'Uploading photo...' : (referencePhotoUrl ? 'Change Photo' : '📸 Choose from Gallery')}
+          <input 
+            type="file" 
+            accept="image/*" 
+            onChange={handlePhotoUpload} 
+            disabled={isUploadingPhoto}
+            style={{ display: 'none' }} 
+          />
+        </label>
+        
+        <p style={{ fontSize: '0.65rem', opacity: 0.7, margin: '4px 0 0 0', textAlign: 'center' }}>
+          *If your photo gallery doesn't open, open this link directly in Safari or Chrome.*
+        </p>
+
+        {photoUploadError && <span style={{ fontSize: '0.8rem', color: '#ff8888', textAlign: 'center' }}>{photoUploadError}</span>}
         {referencePhotoUrl && !isUploadingPhoto && (
-          <span style={{ fontSize: '0.8rem', color: '#88ff88' }}>✓ Photo uploaded successfully!</span>
+          <span style={{ fontSize: '0.8rem', color: '#88ff88', textAlign: 'center' }}>✓ Photo uploaded successfully!</span>
         )}
       </div>
       
