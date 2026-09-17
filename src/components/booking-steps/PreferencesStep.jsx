@@ -150,35 +150,54 @@ export default function PreferencesStep({
           Please upload a photo of the set you want so I can prepare your price and supplies!
         </p>
         
-        <label style={{ 
-          ...inputStyle, 
-          padding: '12px', 
-          fontSize: '0.9rem', 
-          cursor: 'pointer', 
-          textAlign: 'center', 
-          background: 'var(--color-dusty-lilac)', 
-          color: 'white', 
-          border: 'none',
-          fontWeight: 'bold',
-          marginTop: '8px'
-        }}>
-          {isUploadingPhoto ? 'Uploading photo...' : (referencePhotoUrl ? 'Change Photo' : '📸 Choose from Gallery')}
-          <input 
-            type="file" 
-            accept="image/*" 
-            onChange={handlePhotoUpload} 
-            disabled={isUploadingPhoto}
-            style={{ display: 'none' }} 
-          />
-        </label>
-        
-        <p style={{ fontSize: '0.65rem', opacity: 0.7, margin: '4px 0 0 0', textAlign: 'center' }}>
-          *If your photo gallery doesn't open, open this link directly in Safari or Chrome.*
-        </p>
+        <div style={{ display: 'flex', gap: '10px', marginTop: '8px' }}>
+          <label style={{ 
+            ...inputStyle, 
+            padding: '12px', 
+            fontSize: '0.85rem', 
+            cursor: 'pointer', 
+            textAlign: 'center', 
+            background: 'var(--color-dusty-lilac)', 
+            color: 'white', 
+            border: 'none',
+            fontWeight: 'bold',
+            flex: 1
+          }}>
+            {isUploadingPhoto ? 'Uploading...' : '📸 Gallery'}
+            <input 
+              type="file" 
+              accept="image/*" 
+              onChange={handlePhotoUpload} 
+              disabled={isUploadingPhoto}
+              style={{ display: 'none' }} 
+            />
+          </label>
 
-        {photoUploadError && <span style={{ fontSize: '0.8rem', color: '#ff8888', textAlign: 'center' }}>{photoUploadError}</span>}
+          <label style={{ 
+            ...inputStyle, 
+            padding: '12px', 
+            fontSize: '0.85rem', 
+            cursor: 'pointer', 
+            textAlign: 'center', 
+            background: 'rgba(255,255,255,0.15)', 
+            color: 'inherit', 
+            border: '1px solid rgba(255,255,255,0.3)',
+            fontWeight: 'bold',
+            flex: 1
+          }}>
+            {isUploadingPhoto ? 'Uploading...' : '📁 Files'}
+            <input 
+              type="file" 
+              onChange={handlePhotoUpload} 
+              disabled={isUploadingPhoto}
+              style={{ display: 'none' }} 
+            />
+          </label>
+        </div>
+
+        {photoUploadError && <span style={{ fontSize: '0.8rem', color: '#ff8888', textAlign: 'center', marginTop: '4px' }}>{photoUploadError}</span>}
         {referencePhotoUrl && !isUploadingPhoto && (
-          <span style={{ fontSize: '0.8rem', color: '#88ff88', textAlign: 'center' }}>✓ Photo uploaded successfully!</span>
+          <span style={{ fontSize: '0.8rem', color: '#88ff88', textAlign: 'center', marginTop: '4px' }}>✓ Photo uploaded successfully!</span>
         )}
       </div>
       
