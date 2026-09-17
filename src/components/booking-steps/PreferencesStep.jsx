@@ -151,7 +151,7 @@ export default function PreferencesStep({
         </p>
         <input 
           type="file" 
-          accept="image/*" 
+          accept=".png, .jpg, .jpeg, .webp, .heic, image/*" 
           onChange={handlePhotoUpload} 
           disabled={isUploadingPhoto}
           style={{ ...inputStyle, padding: '8px', fontSize: '0.85rem' }} 
