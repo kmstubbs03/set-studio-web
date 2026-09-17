@@ -179,9 +179,9 @@ export default function PreferencesStep({
             fontSize: '0.85rem', 
             cursor: 'pointer', 
             textAlign: 'center', 
-            background: 'rgba(255,255,255,0.15)', 
-            color: 'inherit', 
-            border: '1px solid rgba(255,255,255,0.3)',
+            background: 'var(--color-dusty-lilac)', 
+            color: 'white', 
+            border: 'none',
             fontWeight: 'bold',
             flex: 1
           }}>
